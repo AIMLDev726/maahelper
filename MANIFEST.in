@@ -1,0 +1,31 @@
+# Include the README and other important files
+include README.md
+include LICENSE
+include pyproject.toml
+include requirements.txt
+include run_cli.py
+
+# Include all Python files in package
+recursive-include ai_helper_agent *.py
+
+# Exclude unnecessary files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude .git*
+global-exclude .DS_Store
+global-exclude *.so
+global-exclude .coverage
+global-exclude .pytest_cache
+global-exclude test_*.py
+global-exclude *_test.py
+global-exclude cli_test_*.py
+global-exclude quick_test.*
+global-exclude api_key_setup.py
+
+# Exclude development files
+prune tests
+prune scripts
+prune generated
+prune docs

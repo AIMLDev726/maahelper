@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "maahelper"
-version = "0.0.3"
+version = "0.0.4"
 description = "Interactive MaaHelper for code assistance, analysis, and bug fixing with internet access"
 readme = "README.md"
 license = "MIT"

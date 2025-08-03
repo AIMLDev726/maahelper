@@ -32,7 +32,7 @@ class ModernCLISelector:
         """Show welcome screen"""
         console.print()
         console.print(Panel.fit(
-            "[bold blue]🤖 AI Helper Agent v0.0.3[/bold blue]\n"
+            "[bold blue]🤖 AI Helper Agent v0.0.4[/bold blue]\n"
             "[bold green]Modern OpenAI-Compatible CLI System[/bold green]\n\n"
             "✅ [cyan]Streamlined OpenAI client integration[/cyan]\n"
             "🚀 [cyan]Ultra-fast responses with streaming[/cyan]\n"
@@ -55,6 +55,7 @@ class ModernCLISelector:
         if not available:
             console.print(Panel.fit(
                 "[bold red]⚠️ Setup Required[/bold red]\n\n"
+                "[bold red]⚠️ For Free Ollama Models apikey provide random text like like abc,xyz,etc ...[/bold red]\n\n"
                 "[yellow]No API keys found. The system needs at least one API key to function.[/yellow]\n\n"
                 "[cyan]Launching API Key Manager for setup...[/cyan]",
                 title="🔑 API Key Setup Required",
@@ -75,11 +76,24 @@ class ModernCLISelector:
     
     def show_available_providers(self):
         """Show available providers and their status"""
-        # Supported providers
+        # Dynamically fetch supported providers from PROVIDER_CONFIGS
         supported_providers = [
-            'groq', 'openai', 'anthropic', 'google', 'ollama'
-        ]
+        'openai',
+        'groq',
+        'anthropic',
+        'google',
+        'ollama',
+        'together',
+        'fireworks',
+        'openrouter',
+        'localai',
+        'deepinfra',
+        'perplexity',
+        'cerebras'
+    ]
+
         available = api_key_manager.get_available_providers()
+
         table = Table(
             title="🔑 API Provider Status",
             show_header=True,
@@ -87,21 +101,32 @@ class ModernCLISelector:
         )
         table.add_column("Provider", style="cyan", width=15)
         table.add_column("Status", style="white", width=10)
-        table.add_column("Description", style="dim", width=40)
+        table.add_column("Description", style="dim", width=50)
+
         descriptions = {
             'groq': 'Ultra-fast inference, great for coding tasks',
             'openai': 'GPT models, excellent general capabilities',
             'anthropic': 'Claude models, strong reasoning abilities',
             'google': 'Gemini models, multimodal capabilities',
-            'ollama': 'Local models, runs on your machine'
+            'ollama': 'Local models, runs on your machine',
+            'together': 'Free access to open-source models via Together AI',
+            'fireworks': 'Inference platform supporting Mistral & StableCode',
+            'openrouter': 'Unified proxy for popular AI model endpoints',
+            'localai': 'Self-hosted OpenAI-compatible inference API',
+            'deepinfra': 'Cloud-based fast inference for open models',
+            'perplexity': 'Perplexity RAG-based chat and R1 engine',
+            'cerebras': 'Cerebras Wafer-Scale inference for LLaMA/Command'
         }
+
         for provider in supported_providers:
             status = "✅ Ready" if provider in available else "❌ No Key"
-            description = descriptions.get(provider, "AI provider")
+            description = descriptions.get(provider, "No description available")
             table.add_row(provider.upper(), status, description)
+
         console.print()
         console.print(table)
         console.print()
+
         
     def select_workspace(self) -> Path:
         """Allow user to select workspace directory"""

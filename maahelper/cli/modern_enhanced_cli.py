@@ -41,8 +41,8 @@ class ModernEnhancedCLI:
         # Initialize components
         self.llm_client: Optional[UnifiedLLMClient] = None
         self.conversation_manager: Optional[ConversationManager] = None
-        self.current_provider = "groq"
-        self.current_model = "llama-3.1-8b-instant"
+        self.current_provider = ""
+        self.current_model = ""
         
         # Setup file handler
         file_handler.workspace_path = self.workspace_path
@@ -52,10 +52,10 @@ class ModernEnhancedCLI:
     
     def _get_system_prompt(self) -> str:
         """Get enhanced system prompt"""
-        return f"""You are MaaHelper v0.0.3 — a professional AI programming assistant developed by Meet Solanki (AIML Student). Your goal is to deliver accurate, context-aware coding help with intelligent file-level understanding.
+        return f"""You are MaaHelper v0.0.4 — a professional AI programming assistant developed by Meet Solanki (AIML Student). Your goal is to deliver accurate, context-aware coding help with intelligent file-level understanding.
 
 == SYSTEM OVERVIEW ==
-• Name        : MaaHelper v0.0.3
+• Name        : MaaHelper v0.0.4
 • Creator     : Meet Solanki (AIML Student)
 • Objective   : Advanced programming assistance with workspace-level file processing
 • Guiding Goal: Boost developer productivity through AI-powered problem-solving
@@ -87,43 +87,6 @@ Session ID : {self.session_id}
 Your intelligent coding assistant is ready. Awaiting command.
 """
 
-        
-#     def _get_system_prompt(self) -> str:
-#         """Get enhanced system prompt"""
-#         return f"""You are MaaHelper v0.0.3, an expert programming assistant created by Meet Solanki, an AIML Student.
-
-# 🌟 ABOUT THIS SYSTEM:
-# - Name: MaaHelper v0.0.3  
-# - Creator: Meet Solanki (AIML Student)
-# - Purpose: Advanced programming assistance with intelligent file processing
-# - Mission: Empowering developers with AI-powered code analysis and assistance
-
-# 🔧 CORE CAPABILITIES:
-# - Code analysis, debugging, and optimization
-# - Multi-language programming support (Python, JavaScript, TypeScript, etc.)
-# - Intelligent file processing and analysis
-# - Real-time assistance with streaming responses
-# - Comprehensive code reviews and suggestions
-
-# 📁 FILE PROCESSING:
-# - Access to workspace: {self.workspace_path}
-# - Can analyze code files, documentation, data files
-# - Provides contextual help based on file content
-# - Supports file-search command for deep analysis
-
-# 🤖 INTERACTION STYLE:
-# - Provide clear, helpful, and actionable responses
-# - Show code examples when relevant
-# - Explain reasoning step-by-step
-# - Ask clarifying questions when needed
-# - Be concise but thorough
-# - Help users learn and improve their coding skills
-
-# 💡 HELPING PHILOSOPHY:
-# As created by Meet Solanki (AIML Student), I'm designed to make developers more productive through intelligent assistance. I combine technical expertise with educational guidance to help you succeed.
-
-# Current Session: {self.session_id}
-# Ready to assist with your coding and development needs! 🚀"""
 
     async def setup_llm_client(self) -> bool:
         """Setup LLM client with provider selection"""
@@ -135,7 +98,7 @@ Your intelligent coding assistant is ready. Awaiting command.
             console.print()
             console.print(Panel.fit(
                 Align.center(
-                    "[bold blue]🤖 MaaHelper v0.0.3[/bold blue]\n"
+                    "[bold blue]🤖 MaaHelper v0.0.4[/bold blue]\n"
                     "[dim]Modern Enhanced CLI with Multi-Provider Support[/dim]\n\n"
                     "👨‍💻 Created by Meet Solanki (AIML Student)\n"
                     "[green]✨ Rich UI • 🚀 Live Streaming • 🔍 File Analysis[/green]"
@@ -195,12 +158,20 @@ Your intelligent coding assistant is ready. Awaiting command.
                 provider_table.add_column("", style="dim", width=30)
                 
                 provider_descriptions = {
-                    "groq": "Fast inference, great for development",
-                    "openai": "Industry standard, most capable",
-                    "anthropic": "Claude models, excellent reasoning",
-                    "google": "Gemini models, multimodal support",
-                    "ollama": "Local models, privacy focused"
-                }
+    "openai": "Official GPT-3.5 / GPT-4 API from OpenAI",
+    "groq": "Ultra-fast inference with LLaMA / Mixtral models",
+    "anthropic": "Claude models, excellent reasoning",
+    "google": "Gemini models, multimodal support",
+    "ollama": "Run local models with OpenAI-compatible API",
+    "together": "Free access to Mistral, LLaMA, Mixtral etc",
+    "fireworks": "Supports Mistral and StableCode inference",
+    "openrouter": "Unified gateway to multiple model providers",
+    "localai": "Self-hosted OpenAI-compatible API",
+    "deepinfra": "Cloud-based fast inference for open models",
+    "perplexity": "R1 and mix models via OpenRouter compatible",
+    "cerebras": "Inference on Cerebras Wafer-Scale Engine"
+}
+
                 
                 for i, provider in enumerate(available_providers, 1):
                     desc = provider_descriptions.get(provider, "Advanced AI capabilities")
@@ -226,35 +197,55 @@ Your intelligent coding assistant is ready. Awaiting command.
                 await asyncio.sleep(0.5)  # Brief pause for effect
                 available_models = get_provider_models(selected_provider)
             
-            if len(available_models) <= 1:
-                selected_model = available_models[0] if available_models else "default"
-                console.print(Panel.fit(
-                    f"[bold cyan]🎯 Using model: {selected_model}[/bold cyan]",
-                    border_style="cyan"
-                ))
+            console.print()
+
+            # Always prompt the user for model name regardless of available_models
+            if available_models:
+                console.print()
+                console.print(f"[bold green]📦 Available models:[/bold green] {', '.join(available_models[:5])}")
+                model_input = Prompt.ask(f"🧠 Enter the model name for {selected_provider.upper()}")
             else:
                 console.print()
-                model_table = Table(title=f"🧠 Select Model for {selected_provider.upper()}", show_header=False, box=None)
-                model_table.add_column("", style="cyan", width=4)
-                model_table.add_column("", style="bold", width=30)
+                console.print(f"[yellow]⚠ No models detected. Please enter model name manually for {selected_provider.upper()}[/yellow]")
+                model_input = Prompt.ask(f"🧠 Enter the model name for {selected_provider.upper()}")
+
+            selected_model = model_input.strip()
+
+            console.print(Panel.fit(
+                    f"[bold cyan]🎯 Selected model: {selected_model}[/bold cyan]",
+                    border_style="cyan"
+                ))
+
+                        
+            # if len(available_models) <= 1:
+            #     selected_model = available_models[0] if available_models else "default"
+            #     console.print(Panel.fit(
+            #         f"[bold cyan]🎯 Using model: {selected_model}[/bold cyan]",
+            #         border_style="cyan"
+            #     ))
+            # else:
+            #     console.print()
+            #     model_table = Table(title=f"🧠 Select Model for {selected_provider.upper()}", show_header=False, box=None)
+            #     model_table.add_column("", style="cyan", width=4)
+            #     model_table.add_column("", style="bold", width=30)
                 
-                for i, model in enumerate(available_models[:5], 1):  # Show top 5 models
-                    model_table.add_row(f"{i}.", model)
+            #     for i, model in enumerate(available_models[:5], 1):  # Show top 5 models
+            #         model_table.add_row(f"{i}.", model)
                 
-                console.print(model_table)
-                console.print()
+            #     console.print(model_table)
+            #     console.print()
                     
-                while True:
-                    try:
-                        choice = Prompt.ask("[bold cyan]🧠 Choose model[/bold cyan]", default="1")
-                        idx = int(choice) - 1
-                        if 0 <= idx < len(available_models):
-                            selected_model = available_models[idx]
-                            break
-                        else:
-                            console.print("[red]❌ Invalid choice. Please try again.[/red]")
-                    except ValueError:
-                        console.print("[red]❌ Please enter a number.[/red]")
+            # while True:
+            #         try:
+            #             choice = Prompt.ask("[bold cyan]🧠 Choose model[/bold cyan]", default="1")
+            #             idx = int(choice) - 1
+            #             if 0 <= idx < len(available_models):
+            #                 selected_model = available_models[idx]
+            #                 break
+            #             else:
+            #                 console.print("[red]❌ Invalid choice. Please try again.[/red]")
+            #         except ValueError:
+            #             console.print("[red]❌ Please enter a number.[/red]")
             
             # Setup with progress animation
             with Progress(
@@ -321,7 +312,7 @@ Your intelligent coding assistant is ready. Awaiting command.
     async def show_help(self):
         """Show comprehensive help"""
         help_content = f"""
-# 🤖 MaaHelper v0.0.3 - Modern Enhanced CLI
+# 🤖 MaaHelper v0.0.4 - Modern Enhanced CLI
 
 ## 📝 Basic Commands
 - `help` - Show this help message
@@ -557,7 +548,7 @@ def create_cli(session_id: str = "default", workspace_path: str = ".") -> Modern
 def show_rich_help():
     """Show Rich-formatted help"""
     help_panel = Panel.fit(
-        """[bold blue]🤖 MaaHelper v0.0.3[/bold blue]
+        """[bold blue]🤖 MaaHelper v0.0.4[/bold blue]
 [dim]Modern Enhanced CLI with Multi-Provider Support[/dim]
 👨‍💻 Created by Meet Solanki (AIML Student)
 
@@ -598,7 +589,7 @@ def show_rich_help():
   • GROQ_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, etc.
 
 [bold green]Ready to revolutionize your coding experience! 🚀[/bold green]""",
-        title="🤖 MaaHelper v0.0.3 - Help",
+        title="🤖 MaaHelper v0.0.4 - Help",
         border_style="blue",
         padding=(1, 2)
     )
@@ -608,7 +599,7 @@ def show_rich_version():
     """Show Rich-formatted version"""
     version_panel = Panel.fit(
         """[bold blue]🤖 MaaHelper[/bold blue]
-[green]Version:[/green] [bold]0.0.3[/bold]
+[green]Version:[/green] [bold]0.0.4[/bold]
 [green]Author:[/green] Meet Solanki (AIML Student)
 [green]Architecture:[/green] Modern OpenAI-based CLI
 [green]Features:[/green] Multi-Provider • Rich UI • Streaming • File Analysis
@@ -661,7 +652,7 @@ async def async_main():
 
     console.print()
     console.print(Panel.fit(
-        "[bold blue]🤖 MaaHelper v0.0.3[/bold blue]\n"
+        "[bold blue]🤖 MaaHelper v0.0.4[/bold blue]\n"
         "[dim]Starting Modern Enhanced CLI...[/dim]\n"
         "👨‍💻 Created by Meet Solanki (AIML Student)",
         title="🚀 Initializing",

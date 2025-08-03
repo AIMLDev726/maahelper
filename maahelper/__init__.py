@@ -1,6 +1,6 @@
 """
 AI Helper Agent - Modern Enhanced CLI Package
-Version 0.0.3 - Streamlined with OpenAI client integration
+Version 0.0.4 - Streamlined with OpenAI client integration
 Created by Meet Solanki (AIML Student)
 
 A comprehensive AI-powered programming assistant with advanced code generation,
@@ -45,7 +45,7 @@ from .utils.streamlined_file_handler import file_handler
 from .cli.modern_enhanced_cli import ModernEnhancedCLI, create_cli
 
 # Version info
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 __author__ = "Meet Solanki (AIML Student)"
 __email__ = "aistudentlearn4@gmail.com"
 

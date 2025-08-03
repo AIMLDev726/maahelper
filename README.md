@@ -1,5 +1,5 @@
 
-# 🙏 MaaHelper v0.0.3
+# 🙏 MaaHelper v0.0.4
 
 **Modern Enhanced CLI with Multi-Provider AI Support**
 

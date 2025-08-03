@@ -1,5 +1,5 @@
 """
-Streamlined API Key Manager for AI Helper Agent v0.0.3
+Streamlined API Key Manager for AI Helper Agent v0.0.4
 Uses the advanced secure local storage system
 """
 

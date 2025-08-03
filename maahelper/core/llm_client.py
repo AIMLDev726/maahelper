@@ -10,6 +10,7 @@ from typing import Dict, Any, Optional, List, AsyncIterator, Union
 from dataclasses import dataclass
 from openai import OpenAI, AsyncOpenAI
 from rich.console import Console
+from rich.prompt import Prompt
 
 console = Console()
 
@@ -29,27 +30,81 @@ class UnifiedLLMClient:
     
     # Provider configurations
     PROVIDER_CONFIGS = {
-        "openai": {
-            "base_url": "https://api.openai.com/v1",
-            "models": ["gpt-4o", "gpt-4o-mini", "gpt-4-turbo", "gpt-3.5-turbo"]
-        },
-        "groq": {
-            "base_url": "https://api.groq.com/openai/v1",
-            "models": ["llama-3.1-8b-instant", "llama-3.1-70b-versatile", "mixtral-8x7b-32768", "gemma2-9b-it"]
-        },
-        "anthropic": {
-            "base_url": "https://api.anthropic.com/v1",
-            "models": ["claude-3-5-sonnet-20241022", "claude-3-opus-20240229", "claude-3-haiku-20240307"]
-        },
-        "google": {
-            "base_url": "https://generativelanguage.googleapis.com/v1beta",
-            "models": ["gemini-1.5-pro", "gemini-1.5-flash", "gemini-pro"]
-        },
-        "ollama": {
-            "base_url": "http://localhost:11434/v1",
-            "models": ["llama2", "codellama", "mistral", "neural-chat"]
-        }
+    "openai": {
+        "base_url": "https://api.openai.com/v1",
+        "models": [
+            "gpt-4.1",
+            "gpt-4o",
+            "gpt-4o-mini",
+            "gpt-4.1-mini",
+            "gpt-4.1-nano",
+            "gpt-3.5-turbo-0125"
+        ]
+    },
+    "groq": {
+        "base_url": "https://api.groq.com/openai/v1",
+        "models": [
+            "llama-3.1-8b-instant",
+            "llama-3.3-70b-versatile",
+            "mixtral-8x7b",
+            "gemma2-9b-it",
+            "mistral-7b-instruct-v0.2",
+            "llama-3-70b-instruct",
+            "llama-3-8b-instruct"
+        ]
+    },
+    "anthropic": {
+        "base_url": "https://api.anthropic.com/v1",
+        "models": [
+            "claude-opus-4-20250514",
+            "claude-sonnet-4-20250514",
+            "claude-3-5-sonnet-20241022",
+            "claude-3-5-haiku-20241022",
+            "claude-3-haiku-20240307"
+        ]
+    },
+    "google": {
+        "base_url": "https://generativelanguage.googleapis.com/v1beta",
+        "models": [
+            "gemini-1.5-pro",
+            "gemini-1.5-flash",
+            "gemini-pro"
+        ]
+    },
+    "ollama": {
+        "base_url": "http://localhost:11434/v1",
+        "models": []
+    },
+    "together": {
+        "base_url": "https://api.together.xyz/v1",
+        "models": []
+    },
+    "fireworks": {
+        "base_url": "https://api.fireworks.ai/inference/v1",
+        "models": []
+    },
+    "openrouter": {
+        "base_url": "https://openrouter.ai/api/v1",
+        "models": []
+    },
+    "localai": {
+        "base_url": "http://localhost:8080/v1",
+        "models": []
+    },
+    "deepinfra": {
+        "base_url": "https://api.deepinfra.com/v1/openai",
+        "models": []
+    },
+    "perplexity": {
+        "base_url": "https://api.perplexity.ai/chat/completions",
+        "models": []
+    },
+    "cerebras": {
+        "base_url": "https://api.cerebras.net/v1",
+        "models": []
     }
+}
+
     
     def __init__(self, config: LLMConfig):
         self.config = config
@@ -57,7 +112,7 @@ class UnifiedLLMClient:
         
         # Set base URL if not provided
         if not config.base_url and self.provider_config.get("base_url"):
-            config.base_url = self.provider_config["base_url"]
+            config.base_url = self.provider_config.get("base_url")
         
         # Initialize clients
         self.client = OpenAI(
@@ -109,6 +164,25 @@ class UnifiedLLMClient:
             return "ollama"
         
         return None
+    
+    def get_provider_models(provider: str) -> List[str]:
+        """Get available models for a provider"""
+
+        # Providers that must ask user for model names manually
+        always_prompt = [
+            "ollama", "together", "fireworks", "openrouter",
+            "localai", "deepinfra", "perplexity", "cerebras"
+        ]
+
+        if provider in always_prompt:
+            console.print(f"[yellow]⚠ Models not predefined for '{provider}'.[/yellow]")
+            model_input = Prompt.ask(f"🔧 Enter one or more model names for '{provider}' (comma-separated)")
+            models = [m.strip() for m in model_input.split(",") if m.strip()]
+            return models
+
+        # Fallback to predefined config
+        return UnifiedLLMClient.PROVIDER_CONFIGS.get(provider, {}).get("models", [])
+
     
     def chat_completion(self, messages: List[Dict[str, str]], **kwargs) -> str:
         """Synchronous chat completion"""

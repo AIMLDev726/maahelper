@@ -1,6 +1,6 @@
 """
-Advanced API Key Manager for AI Helper Agent v0.0.3
-Secure local storage in C:/Users/{username}/.ai_helper_agent/
+Advanced API Key Manager for AI Helper Agent v0.0.4
+Secure local storage in C:/Users/{username}/.maahelper/
 With Rich UI for password-protected management
 """
 
@@ -29,8 +29,8 @@ class AdvancedAPIKeyManager:
     """Advanced API Key Manager with Rich UI and secure local storage"""
     
     def __init__(self):
-        # Create ~/.ai_helper_agent directory in user's home
-        self.config_dir = Path.home() / ".ai_helper_agent"
+        # Create ~/.maahelper directory in user's home
+        self.config_dir = Path.home() / ".maahelper"
         self.config_file = self.config_dir / "config.json"
         self.key_file = self.config_dir / "keyring.key"
         
@@ -41,45 +41,79 @@ class AdvancedAPIKeyManager:
         self.fernet = None
         self.is_unlocked = False
         
-        # Supported providers
         self.providers = {
-            "groq": {
-                "name": "Groq",
-                "env_var": "GROQ_API_KEY",
-                "url": "https://groq.com/",
-                "free": True,
-                "description": "⚡ Ultra-fast inference with Llama, Mixtral models"
-            },
-            "openai": {
-                "name": "OpenAI",
-                "env_var": "OPENAI_API_KEY", 
-                "url": "https://platform.openai.com/",
-                "free": False,
-                "description": "🧠 GPT-4, GPT-3.5-turbo models"
-            },
-            "anthropic": {
-                "name": "Anthropic",
-                "env_var": "ANTHROPIC_API_KEY",
-                "url": "https://console.anthropic.com/",
-                "free": False,
-                "description": "📝 Claude 3 models for analysis and reasoning"
-            },
-            "google": {
-                "name": "Google",
-                "env_var": "GOOGLE_API_KEY",
-                "url": "https://ai.google.dev/",
-                "free": True,
-                "description": "🔍 Gemini models with multimodal capabilities"
-            },
-            "ollama": {
-                "name": "Ollama", 
-                "env_var": "OLLAMA_BASE_URL",
-                "url": "https://ollama.ai/",
-                "free": True,
-                "description": "🏠 Run local models privately"
-            }
-        }
-    
+    "openai": {
+        "name": "OpenAI",
+        "env_var": "OPENAI_API_KEY",
+        "base_url": "https://api.openai.com/v1",
+        "free": False,
+        "description": "Official GPT-3.5 / GPT-4 API"
+    },
+    "groq": {
+        "name": "Groq",
+        "env_var": "GROQ_API_KEY",
+        "base_url": "https://api.groq.com/openai/v1",
+        "free": True,
+        "description": "Ultra-fast inference with LLaMA / Mixtral"
+    },
+    "together": {
+        "name": "Together AI",
+        "env_var": "TOGETHER_API_KEY",
+        "base_url": "https://api.together.xyz/v1",
+        "free": True,
+        "description": "Free/Open access to Mistral, LLaMA, Mixtral etc"
+    },
+    "fireworks": {
+        "name": "Fireworks AI",
+        "env_var": "FIREWORKS_API_KEY",
+        "base_url": "https://api.fireworks.ai/inference/v1",
+        "free": True,
+        "description": "Supports Mistral and stable models"
+    },
+    "openrouter": {
+        "name": "OpenRouter",
+        "env_var": "OPENROUTER_API_KEY",
+        "base_url": "https://openrouter.ai/api/v1",
+        "free": True,
+        "description": "Unified gateway to multiple model providers"
+    },
+    "ollama": {
+        "name": "Ollama",
+        "env_var": "OLLAMA_BASE_URL",
+        "base_url": "http://localhost:11434/v1",
+        "free": True,
+        "description": "Run local models with OpenAI-compatible API"
+    },
+    "localai": {
+        "name": "LocalAI",
+        "env_var": "LOCALAI_API_KEY",
+        "base_url": "http://localhost:8080/v1",
+        "free": True,
+        "description": "Self-hosted OpenAI-compatible API"
+    },
+    "deepinfra": {
+        "name": "DeepInfra",
+        "env_var": "DEEPINFRA_API_KEY",
+        "base_url": "https://api.deepinfra.com/v1/openai",
+        "free": True,
+        "description": "Supports Mistral, LLaMA models with good speed"
+    },
+    "perplexity": {
+        "name": "Perplexity AI",
+        "env_var": "PERPLEXITY_API_KEY",
+        "base_url": "https://api.perplexity.ai/chat/completions",
+        "free": False,
+        "description": "R1 and mix models via OpenRouter compatible"
+    },
+    "cerebras": {
+        "name": "Cerebras",
+        "env_var": "CEREBRAS_API_KEY",
+        "base_url": "https://api.cerebras.ai/v1",
+        "free": True,
+        "description": "Inference on Cerebras Wafer-Scale Engine, supports command and llama models"
+    }
+}
+
     def _derive_key(self, password: str, salt: bytes) -> bytes:
         """Derive encryption key from password"""
         kdf = PBKDF2HMAC(
@@ -229,7 +263,7 @@ class AdvancedAPIKeyManager:
                 info["name"],
                 free_status,
                 info["description"],
-                info["url"]
+    info.get("base_url", "N/A")  # ✅ Uses base_url safely
             )
         
         console.print(table)
@@ -296,7 +330,7 @@ class AdvancedAPIKeyManager:
             
             while True:
                 try:
-                    choice = Prompt.ask("Enter choice (1-5)", default="1")
+                    choice = Prompt.ask("Enter choice (1-10)", default="1")
                     idx = int(choice) - 1
                     if 0 <= idx < len(providers_list):
                         provider = providers_list[idx]
@@ -316,7 +350,7 @@ class AdvancedAPIKeyManager:
         console.print(Panel.fit(
             f"[bold blue]🔑 Adding API Key for {provider_info['name']}[/bold blue]\n\n"
             f"[yellow]Description:[/yellow] {provider_info['description']}\n"
-            f"[yellow]Get your key:[/yellow] {provider_info['url']}\n"
+            f"[yellow]Get your key:[/yellow] {provider_info['base_url']}\n"
             f"[yellow]Environment variable:[/yellow] {provider_info['env_var']}\n\n"
             "[dim]💡 Your API key will be encrypted and stored locally[/dim]",
             title="🚀 Setup",

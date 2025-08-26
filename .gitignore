@@ -144,3 +144,31 @@ Thumbs.db
 temp_code_test.py
 *.tmp
 *.temp
+
+# MaaHelper specific
+.maahelper/
+config.json
+api_keys.json
+*.log
+
+# Development and test files
+test_*.py
+debug_*.py
+scratch_*.py
+temp_*.py
+
+# Backup files
+*.bak
+*.backup
+*.orig
+
+# Windows specific
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE_BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk

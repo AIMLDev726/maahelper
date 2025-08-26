@@ -96,7 +96,7 @@ def show_version():
     except ImportError:
         __version__ = "0.0.5"
 
-    version_content = f"""[bold blue]🤖 MaaHelper v{__version__}[/bold blue]
+    version_content = f"""[bold blue]MaaHelper v{__version__}[/bold blue]
 
 [bold green]Version Information:[/bold green]
   • Version: {__version__}

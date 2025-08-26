@@ -1,22 +1,23 @@
 """
-AI Helper Agent - Modern Enhanced CLI Package
-Version 0.0.4 - Streamlined with OpenAI client integration
+MaaHelper - Advanced AI-powered coding assistant
+Version 0.0.5 - With IDE Integration and Project-wide Workflows
 Created by Meet Solanki (AIML Student)
 
 A comprehensive AI-powered programming assistant with advanced code generation,
 analysis, debugging, and optimization capabilities using multiple LLM providers.
 
 Modern Features:
-- Unified OpenAI client for all providers (Groq, OpenAI, Anthropic, Google, Ollama)
+- Unified LLM client for all providers (Groq, OpenAI, Anthropic, Google, Ollama)
 - Real-time streaming responses with Rich UI
+- Deep IDE integration with VSCode extension and LSP server
+- Project-wide agent workflows with LangGraph-inspired orchestration
 - Intelligent file processing and analysis
-- Secure API key management without getpass
+- Secure API key management
 - Modern CLI with enhanced UX
-- File-search command for AI-powered file analysis
 - Multi-provider support with automatic model selection
 - Async/await architecture for better performance
 - Rich formatting with syntax highlighting
-- Persistent conversation history
+- Persistent conversation history and workflow state
 
 Key Components:
 - UnifiedLLMClient: Single interface for all AI providers
@@ -24,57 +25,74 @@ Key Components:
 - StreamlinedAPIKeyManager: Environment-based key management
 - StreamlinedFileHandler: AI-powered file analysis
 - ModernEnhancedCLI: Main CLI interface
+- WorkflowEngine: Project-wide workflow orchestration
+- LSP Server: Language Server Protocol for IDE integration
 
 Usage:
     # Direct CLI usage
-    from ai_helper_agent.cli.modern_enhanced_cli import main
+    from maahelper.cli.modern_enhanced_cli import main
     import asyncio
     asyncio.run(main())
-    
+
     # Or programmatic usage
-    from ai_helper_agent import create_cli
+    from maahelper import create_cli
     cli = create_cli()
     await cli.start()
 """
 
 # Modern components
-from .core.llm_client import UnifiedLLMClient, create_llm_client, get_all_providers, get_provider_models
-from .utils.streaming import ModernStreamingHandler, ConversationManager
-from .managers.streamlined_api_key_manager import api_key_manager
-from .utils.streamlined_file_handler import file_handler
-from .cli.modern_enhanced_cli import ModernEnhancedCLI, create_cli
+from .maahelper.core.llm_client import (
+    UnifiedLLMClient, create_llm_client, get_all_providers, get_provider_models, get_provider_models_dynamic,
+    LLMClientError, LLMConnectionError, LLMAuthenticationError, LLMRateLimitError, LLMModelError, LLMStreamingError
+)
+from .maahelper.utils.streaming import ModernStreamingHandler, ConversationManager
+from .maahelper.managers.streamlined_api_key_manager import api_key_manager
+from .maahelper.utils.streamlined_file_handler import file_handler
+
+# CLI (import lazily)
+def get_cli():
+    from .maahelper.cli.modern_enhanced_cli import ModernEnhancedCLI, create_cli
+    return ModernEnhancedCLI, create_cli
 
 # Version info
-__version__ = "0.0.4"
+__version__ = "0.0.5"
 __author__ = "Meet Solanki (AIML Student)"
 __email__ = "aistudentlearn4@gmail.com"
 
 # Package metadata
-__title__ = "ai-helper-agent"
-__description__ = "Modern AI Helper Agent with OpenAI client integration and multi-provider support"
-__url__ = "https://github.com/AIMLDev726/ai-helper-agent"
+__title__ = "maahelper"
+__description__ = "MaaHelper - Advanced AI-powered coding assistant with real-time analysis and Git integration"
+__url__ = "https://github.com/AIMLDev726/maahelper"
 __license__ = "MIT"
 
 # Modern exports
 __all__ = [
     # Core LLM functionality
     "UnifiedLLMClient",
-    "create_llm_client", 
+    "create_llm_client",
     "get_all_providers",
     "get_provider_models",
-    
+    "get_provider_models_dynamic",
+
+    # Exceptions
+    "LLMClientError",
+    "LLMConnectionError",
+    "LLMAuthenticationError",
+    "LLMRateLimitError",
+    "LLMModelError",
+    "LLMStreamingError",
+
     # Streaming and conversation
     "ModernStreamingHandler",
     "ConversationManager",
-    
+
     # Managers
     "api_key_manager",
     "file_handler",
-    
+
     # CLI
-    "ModernEnhancedCLI",
-    "create_cli",
-    
+    "get_cli",
+
     # Metadata
     "__version__",
     "__author__",

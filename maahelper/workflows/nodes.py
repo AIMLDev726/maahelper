@@ -523,41 +523,165 @@ class WorkflowNodes:
         """Create a git commit"""
         message = inputs.get('message', 'Automated commit from MaaHelper workflow')
         add_all = inputs.get('add_all', True)
-        
+
         try:
             if add_all:
                 subprocess.run(['git', 'add', '.'], check=True)
-            
+
             subprocess.run(['git', 'commit', '-m', message], check=True)
-            
+
             return {
                 'commit_message': message,
                 'committed': True
             }
         except subprocess.CalledProcessError as e:
             raise RuntimeError(f"Git commit failed: {e}")
+
+    async def git_branch_node(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
+        """Create or switch to a git branch"""
+        branch_name = inputs.get('branch_name')
+        create_new = inputs.get('create_new', True)
+
+        if not branch_name:
+            raise ValueError("branch_name is required")
+
+        try:
+            if create_new:
+                subprocess.run(['git', 'checkout', '-b', branch_name], check=True)
+            else:
+                subprocess.run(['git', 'checkout', branch_name], check=True)
+
+            return {
+                'branch_name': branch_name,
+                'created': create_new,
+                'switched': True
+            }
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError(f"Git branch operation failed: {e}")
+
+    async def git_merge_node(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
+        """Merge a git branch"""
+        source_branch = inputs.get('source_branch')
+        target_branch = inputs.get('target_branch', 'main')
+
+        if not source_branch:
+            raise ValueError("source_branch is required")
+
+        try:
+            # Switch to target branch
+            subprocess.run(['git', 'checkout', target_branch], check=True)
+
+            # Merge source branch
+            subprocess.run(['git', 'merge', source_branch], check=True)
+
+            return {
+                'source_branch': source_branch,
+                'target_branch': target_branch,
+                'merged': True
+            }
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError(f"Git merge failed: {e}")
     
     async def scan_project_node(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
         """Scan project structure"""
         project_path = inputs.get('project_path', '.')
         include_hidden = inputs.get('include_hidden', False)
-        
+
         project_path_obj = Path(project_path)
         if not project_path_obj.exists():
             raise FileNotFoundError(f"Project path not found: {project_path}")
-        
+
         files = []
         for file_path in project_path_obj.rglob('*'):
             if file_path.is_file():
                 if not include_hidden and any(part.startswith('.') for part in file_path.parts):
                     continue
                 files.append(str(file_path.relative_to(project_path_obj)))
-        
+
         return {
             'project_path': str(project_path_obj),
             'files': files,
             'file_count': len(files)
         }
+
+    async def run_tests_node(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
+        """Run project tests"""
+        test_command = inputs.get('test_command', 'python -m pytest')
+        test_path = inputs.get('test_path', 'tests/')
+
+        try:
+            result = subprocess.run(
+                test_command.split() + [test_path] if test_path else test_command.split(),
+                capture_output=True,
+                text=True,
+                check=False
+            )
+
+            return {
+                'test_command': test_command,
+                'return_code': result.returncode,
+                'stdout': result.stdout,
+                'stderr': result.stderr,
+                'success': result.returncode == 0
+            }
+        except Exception as e:
+            return {
+                'test_command': test_command,
+                'error': str(e),
+                'success': False
+            }
+
+    async def build_project_node(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
+        """Build the project"""
+        build_command = inputs.get('build_command', 'python setup.py build')
+
+        try:
+            result = subprocess.run(
+                build_command.split(),
+                capture_output=True,
+                text=True,
+                check=False
+            )
+
+            return {
+                'build_command': build_command,
+                'return_code': result.returncode,
+                'stdout': result.stdout,
+                'stderr': result.stderr,
+                'success': result.returncode == 0
+            }
+        except Exception as e:
+            return {
+                'build_command': build_command,
+                'error': str(e),
+                'success': False
+            }
+
+    async def deploy_project_node(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
+        """Deploy the project"""
+        deploy_command = inputs.get('deploy_command', 'echo "No deploy command specified"')
+
+        try:
+            result = subprocess.run(
+                deploy_command.split(),
+                capture_output=True,
+                text=True,
+                check=False
+            )
+
+            return {
+                'deploy_command': deploy_command,
+                'return_code': result.returncode,
+                'stdout': result.stdout,
+                'stderr': result.stderr,
+                'success': result.returncode == 0
+            }
+        except Exception as e:
+            return {
+                'deploy_command': deploy_command,
+                'error': str(e),
+                'success': False
+            }
     
     def _detect_language(self, file_extension: str) -> str:
         """Detect programming language from file extension"""

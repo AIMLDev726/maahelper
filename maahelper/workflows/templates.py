@@ -36,11 +36,9 @@ class WorkflowTemplates:
         
         # Testing Workflows
         templates['test_suite_generation'] = self._create_test_suite_generation_template()
-        templates['test_coverage_improvement'] = self._create_test_coverage_improvement_template()
         
         # Documentation Workflows
         templates['documentation_generation'] = self._create_documentation_generation_template()
-        templates['api_documentation'] = self._create_api_documentation_template()
         
         # Feature Development Workflows
         templates['feature_implementation'] = self._create_feature_implementation_template()

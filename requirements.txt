@@ -1,0 +1,42 @@
+# MaaHelper - Modern Production Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core AI Dependencies - OpenAI client for all providers
+openai>=1.0.0
+
+# UI and Display
+rich>=13.0.0
+
+# Security and Encryption
+cryptography>=41.0.0
+
+# Logging
+structlog>=23.0.0
+
+# Async support
+asyncio
+aiohttp>=3.8.0
+aiofiles>=23.0.0
+
+# Encoding detection
+chardet>=5.0.0
+
+# Token counting
+tiktoken>=0.5.0
+
+# Configuration management
+PyYAML>=6.0
+
+# Testing (development)
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.0.0
+
+# New features (v0.0.5)
+watchdog>=3.0.0  # File watching for real-time analysis
+gitpython>=3.1.0  # Git integration features
+googlesearch-python>=1.2.0  # Web search capabilities
+
+# Python compatibility
+pathlib2; python_version<'3.4'
+typing-extensions>=4.0.0; python_version<'3.10'

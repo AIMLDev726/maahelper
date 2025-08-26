@@ -1,13 +1,7 @@
 
-<<<<<<< HEAD
-# 🙏 MaaHelper v0.0.4
-
-**Modern Enhanced CLI with Multi-Provider AI Support**
-=======
 # 🙏 MaaHelper v0.0.5
 
 **Advanced AI-Powered Coding Assistant with Real-time Analysis & Git Integration**
->>>>>>> 9a27ace (Initial commit)
 
 Created by **Meet Solanki (AIML Student)**
 
@@ -18,24 +12,15 @@ Created by **Meet Solanki (AIML Student)**
 
 ## ✨ Features
 
-<<<<<<< HEAD
-- 🎨 **Rich CLI**: Real-time streaming, beautiful panels, markdown/code rendering
-- 🤖 **Multi-Provider AI**: OpenAI, Groq, Anthropic, Google, Ollama
- 📁 **AI File Analysis**: `file-search <filepath>` for code/data/doc files
- 🔐 **Secure API Key Management**: Local encrypted storage in `C:/Users/<username>/.maahelper/`
-=======
 ### 🎯 Core Features
 - 🎨 **Rich CLI**: Real-time streaming, beautiful panels, markdown/code rendering
 - 🤖 **Multi-Provider AI**: OpenAI, Groq, Anthropic, Google, Ollama
 - 📁 **AI File Analysis**: `file-search <filepath>` for code/data/doc files
 - 🔐 **Secure API Key Management**: Local encrypted storage in `C:/Users/<username>/.maahelper/`
->>>>>>> 9a27ace (Initial commit)
 - 💬 **Interactive Chat**: Persistent conversation history, context-aware
 - 🚀 **Async Performance**: Fast streaming, low memory, instant startup
 - 📊 **Live Stats**: Session, file, and model metrics
 
-<<<<<<< HEAD
-=======
 ### 🆕 New in v0.0.5
 - 🤖 **Custom Agent Prompts (Vibecoding)**: Specialized AI workflows for coding tasks
 - 🔍 **Dynamic Model Discovery**: Auto-fetch latest models from all providers
@@ -43,7 +28,6 @@ Created by **Meet Solanki (AIML Student)**
 - 🔧 **Smart Git Integration**: AI-powered commit messages and branch suggestions
 - ⚡ **Enhanced Performance**: Rate limiting, memory management, and caching
 
->>>>>>> 9a27ace (Initial commit)
 
 ## 🚀 Quick Start
 
@@ -53,8 +37,6 @@ Created by **Meet Solanki (AIML Student)**
 pip install maahelper
 ```
 
-<<<<<<< HEAD
-=======
 ### 📓 Complete Tutorial
 **NEW**: Interactive Jupyter notebook with step-by-step guide!
 
@@ -69,15 +51,12 @@ The notebook covers:
 - ✅ All new v0.0.5 features
 - ✅ Pro tips and workflows
 
->>>>>>> 9a27ace (Initial commit)
 ### Usage
 
 ```bash
 # Start the CLI
 maahelper
 
-<<<<<<< HEAD
-=======
 # Try new v0.0.5 commands
 > prompts             # 🆕 List custom AI agent prompts
 > code-review         # 🆕 AI-powered code review
@@ -86,7 +65,6 @@ maahelper
 > analyze-start       # Start real-time code analysis
 > git-commit          # AI-powered smart commits
 
->>>>>>> 9a27ace (Initial commit)
 # Or run via Python
 python -m maahelper.cli.modern_enhanced_cli
 ```
@@ -273,8 +251,6 @@ You: Review this function for bugs
 
 
 
-<<<<<<< HEAD
-=======
 ## 📚 Documentation
 
 ### 📓 Getting Started
@@ -286,7 +262,6 @@ You: Review this function for bugs
 - **[CODE_STRUCTURE.md](CODE_STRUCTURE.md)** - Complete architecture documentation
 - **[CLEANUP_REPORT.md](CLEANUP_REPORT.md)** - Code quality improvements
 
->>>>>>> 9a27ace (Initial commit)
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -297,8 +272,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<<<<<<< HEAD
-=======
 ### 🏗️ Development Setup
 ```bash
 # Clone the repository
@@ -315,7 +288,6 @@ pytest tests/
 cat CODE_STRUCTURE.md
 ```
 
->>>>>>> 9a27ace (Initial commit)
 
 ## 📄 License
 

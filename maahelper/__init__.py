@@ -1,9 +1,5 @@
 """
-<<<<<<< HEAD
-AI Helper Agent - Modern Enhanced CLI Package
-=======
 MaaHelper - Modern Enhanced CLI Package
->>>>>>> 9a27ace (Initial commit)
 Version 0.0.4 - Streamlined with OpenAI client integration
 Created by Meet Solanki (AIML Student)
 
@@ -31,36 +27,17 @@ Key Components:
 
 Usage:
     # Direct CLI usage
-<<<<<<< HEAD
-    from ai_helper_agent.cli.modern_enhanced_cli import main
-    import asyncio
-    asyncio.run(main())
-    
-    # Or programmatic usage
-    from ai_helper_agent import create_cli
-=======
     from maahelper.cli.modern_enhanced_cli import main
     import asyncio
     asyncio.run(main())
 
     # Or programmatic usage
     from maahelper import create_cli
->>>>>>> 9a27ace (Initial commit)
     cli = create_cli()
     await cli.start()
 """
 
 # Modern components
-<<<<<<< HEAD
-from .core.llm_client import UnifiedLLMClient, create_llm_client, get_all_providers, get_provider_models
-from .utils.streaming import ModernStreamingHandler, ConversationManager
-from .managers.streamlined_api_key_manager import api_key_manager
-from .utils.streamlined_file_handler import file_handler
-from .cli.modern_enhanced_cli import ModernEnhancedCLI, create_cli
-
-# Version info
-__version__ = "0.0.4"
-=======
 from .core.llm_client import (
     UnifiedLLMClient, create_llm_client, get_all_providers, get_provider_models, get_provider_models_dynamic,
     LLMClientError, LLMConnectionError, LLMAuthenticationError, LLMRateLimitError, LLMModelError, LLMStreamingError
@@ -98,31 +75,19 @@ def get_cli():
 
 # Version info
 __version__ = "0.0.5"
->>>>>>> 9a27ace (Initial commit)
 __author__ = "Meet Solanki (AIML Student)"
 __email__ = "aistudentlearn4@gmail.com"
 
 # Package metadata
-<<<<<<< HEAD
-__title__ = "ai-helper-agent"
-__description__ = "Modern AI Helper Agent with OpenAI client integration and multi-provider support"
-__url__ = "https://github.com/AIMLDev726/ai-helper-agent"
-=======
 __title__ = "maahelper"
 __description__ = "MaaHelper - Advanced AI-powered coding assistant with real-time analysis and Git integration"
 __url__ = "https://github.com/AIMLDev726/maahelper"
->>>>>>> 9a27ace (Initial commit)
 __license__ = "MIT"
 
 # Modern exports
 __all__ = [
     # Core LLM functionality
     "UnifiedLLMClient",
-<<<<<<< HEAD
-    "create_llm_client", 
-    "get_all_providers",
-    "get_provider_models",
-=======
     "create_llm_client",
     "get_all_providers",
     "get_provider_models",
@@ -150,7 +115,6 @@ __all__ = [
     "get_realtime_analyzer",
     "get_git_integration",
     "get_cli",
->>>>>>> 9a27ace (Initial commit)
     
     # Streaming and conversation
     "ModernStreamingHandler",

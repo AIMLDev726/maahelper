@@ -1,9 +1,5 @@
 """
-<<<<<<< HEAD
-Modern Streaming Response Handler for AI Helper Agent
-=======
 Modern Streaming Response Handler for MaaHelper
->>>>>>> 9a27ace (Initial commit)
 Uses OpenAI client for real-time LLM response streaming with Rich UI
 """
 
@@ -25,11 +21,6 @@ from ..core.llm_client import UnifiedLLMClient
 
 console = Console()
 
-<<<<<<< HEAD
-class ModernStreamingHandler:
-    """Modern streaming handler with Rich UI integration"""
-    
-=======
 
 class TokenCounter:
     """Accurate token counting using tiktoken"""
@@ -71,16 +62,12 @@ class TokenCounter:
 class ModernStreamingHandler:
     """Modern streaming handler with Rich UI integration"""
 
->>>>>>> 9a27ace (Initial commit)
     def __init__(self, llm_client: UnifiedLLMClient):
         self.llm_client = llm_client
         self.response_buffer = ""
         self.total_tokens = 0
         self.start_time = None
-<<<<<<< HEAD
-=======
         self.token_counter = TokenCounter()
->>>>>>> 9a27ace (Initial commit)
         
     async def stream_response(self, query: str, system_prompt: str = None,
                              show_stats: bool = True) -> str:
@@ -108,11 +95,7 @@ class ModernStreamingHandler:
                     if chunk:
                         display_text += chunk
                         self.response_buffer += chunk
-<<<<<<< HEAD
-                        self.total_tokens += len(chunk.split())
-=======
                         self.total_tokens += self.token_counter.count_tokens_incremental(chunk)
->>>>>>> 9a27ace (Initial commit)
                         
                         # Try to render as Markdown, fall back to Text if it fails
                         try:
@@ -158,15 +141,6 @@ class ModernStreamingHandler:
             return self.response_buffer
             
         except Exception as e:
-<<<<<<< HEAD
-            error_panel = Panel.fit(
-                f"[red]❌ Streaming error: {str(e)}[/red]",
-                title="[red]Error[/red]",
-                border_style="red"
-            )
-            console.print(error_panel)
-            return f"❌ Streaming error: {e}"
-=======
             # Import exception classes for proper error handling
             from ..core.llm_client import (
                 LLMClientError, LLMConnectionError, LLMAuthenticationError,
@@ -219,7 +193,6 @@ class ModernStreamingHandler:
 
             console.print(error_panel)
             return error_msg
->>>>>>> 9a27ace (Initial commit)
     
     async def quick_response(self, query: str, system_prompt: str = None) -> str:
         """Quick response without streaming UI"""
@@ -251,11 +224,7 @@ class ModernStreamingHandler:
                     if chunk:
                         display_text += chunk
                         self.response_buffer += chunk
-<<<<<<< HEAD
-                        self.total_tokens += len(chunk.split())
-=======
                         self.total_tokens += self.token_counter.count_tokens_incremental(chunk)
->>>>>>> 9a27ace (Initial commit)
                         
                         # Try to render as Markdown, fall back to Text if it fails
                         try:

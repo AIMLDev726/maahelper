@@ -1,9 +1,5 @@
 """
-<<<<<<< HEAD
-AI Helper Agent - Modern Managers Module
-=======
 MaaHelper - Modern Managers Module
->>>>>>> 9a27ace (Initial commit)
 Streamlined management components for OpenAI-based system
 """
 

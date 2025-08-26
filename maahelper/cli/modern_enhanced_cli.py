@@ -4,10 +4,7 @@ Streamlined implementation using OpenAI client and Rich UI
 """
 
 import asyncio
-<<<<<<< HEAD
-=======
 import json
->>>>>>> 9a27ace (Initial commit)
 import os
 import sys
 import time
@@ -28,19 +25,12 @@ from rich.align import Align
 from rich.columns import Columns
 
 # Internal imports
-<<<<<<< HEAD
-from ..core.llm_client import UnifiedLLMClient, create_llm_client, get_all_providers, get_provider_models
-from ..utils.streaming import ModernStreamingHandler, ConversationManager
-from ..managers.streamlined_api_key_manager import api_key_manager
-from ..utils.streamlined_file_handler import file_handler
-=======
 from ..core.llm_client import UnifiedLLMClient, create_llm_client, get_all_providers, get_provider_models, get_provider_models_dynamic
 from ..utils.streaming import ModernStreamingHandler, ConversationManager
 from ..managers.streamlined_api_key_manager import api_key_manager
 from ..utils.streamlined_file_handler import file_handler
 from ..workflows.commands import WorkflowCommands
 from ..ide.commands import IDECommands
->>>>>>> 9a27ace (Initial commit)
 
 console = Console()
 
@@ -56,13 +46,10 @@ class ModernEnhancedCLI:
         self.conversation_manager: Optional[ConversationManager] = None
         self.current_provider = ""
         self.current_model = ""
-<<<<<<< HEAD
-=======
 
         # Initialize workflow and IDE commands
         self.workflow_commands: Optional[WorkflowCommands] = None
         self.ide_commands: Optional[IDECommands] = None
->>>>>>> 9a27ace (Initial commit)
         
         # Setup file handler
         file_handler.workspace_path = self.workspace_path
@@ -72,15 +59,6 @@ class ModernEnhancedCLI:
     
     def _get_system_prompt(self) -> str:
         """Get enhanced system prompt"""
-<<<<<<< HEAD
-        return f"""You are MaaHelper v0.0.4 — a professional AI programming assistant developed by Meet Solanki (AIML Student). Your goal is to deliver accurate, context-aware coding help with intelligent file-level understanding.
-
-== SYSTEM OVERVIEW ==
-• Name        : MaaHelper v0.0.4
-• Creator     : Meet Solanki (AIML Student)
-• Objective   : Advanced programming assistance with workspace-level file processing
-• Guiding Goal: Boost developer productivity through AI-powered problem-solving
-=======
         # Import version safely
         try:
             from maahelper import __version__
@@ -93,7 +71,6 @@ class ModernEnhancedCLI:
 • Creator     : Meet Solanki (AIML Student)
 • Objective   : Advanced programming assistance with workspace-level file processing, real-time analysis, and Git integration
 • Guiding Goal: Boost developer productivity through AI-powered problem-solving and workflow automation
->>>>>>> 9a27ace (Initial commit)
 
 == CORE CAPABILITIES ==
 • Code debugging, refactoring, and optimization
@@ -131,11 +108,6 @@ Your intelligent coding assistant is ready. Awaiting command.
                 await asyncio.sleep(1)  # Brief pause for effect
             
             console.print()
-<<<<<<< HEAD
-            console.print(Panel.fit(
-                Align.center(
-                    "[bold blue]🤖 MaaHelper v0.0.4[/bold blue]\n"
-=======
             # Import version safely
             try:
                 from maahelper import __version__
@@ -144,7 +116,6 @@ Your intelligent coding assistant is ready. Awaiting command.
             console.print(Panel.fit(
                 Align.center(
                     f"[bold blue]🤖 MaaHelper v{__version__}[/bold blue]\n"
->>>>>>> 9a27ace (Initial commit)
                     "[dim]Modern Enhanced CLI with Multi-Provider Support[/dim]\n\n"
                     "👨‍💻 Created by Meet Solanki (AIML Student)\n"
                     "[green]✨ Rich UI • 🚀 Live Streaming • 🔍 File Analysis[/green]"
@@ -238,12 +209,6 @@ Your intelligent coding assistant is ready. Awaiting command.
                     except ValueError:
                         console.print("[red]❌ Please enter a number.[/red]")
             
-<<<<<<< HEAD
-            # Model selection with Rich formatting  
-            with console.status(f"[bold green]Loading models for {selected_provider.upper()}...", spinner="dots"):
-                await asyncio.sleep(0.5)  # Brief pause for effect
-                available_models = get_provider_models(selected_provider)
-=======
             # Model selection with Rich formatting
             with console.status(f"[bold green]Loading models for {selected_provider.upper()}...", spinner="dots"):
                 await asyncio.sleep(0.5)  # Brief pause for effect
@@ -267,7 +232,6 @@ Your intelligent coding assistant is ready. Awaiting command.
                     # Fallback to static models
                     available_models = get_provider_models(selected_provider)
                     console.print(f"[dim]📋 Using static model list (no API key)[/dim]")
->>>>>>> 9a27ace (Initial commit)
             
             console.print()
 
@@ -350,10 +314,6 @@ Your intelligent coding assistant is ready. Awaiting command.
                 
                 self.current_provider = selected_provider
                 self.current_model = selected_model
-<<<<<<< HEAD
-                progress.update(task2, advance=50)
-                progress.update(task3, advance=50)
-=======
 
                 # Initialize workflow and IDE commands
                 task4 = progress.add_task("[green]Initializing workflows...", total=100)
@@ -370,7 +330,6 @@ Your intelligent coding assistant is ready. Awaiting command.
                 progress.update(task3, advance=50)
                 progress.update(task4, advance=50)
                 progress.update(task5, advance=50)
->>>>>>> 9a27ace (Initial commit)
             
             # Success panel with all details
             console.print()
@@ -402,14 +361,6 @@ Your intelligent coding assistant is ready. Awaiting command.
     
     async def show_help(self):
         """Show comprehensive help"""
-<<<<<<< HEAD
-        help_content = f"""
-# 🤖 MaaHelper v0.0.4 - Modern Enhanced CLI
-
-## 📝 Basic Commands
-- `help` - Show this help message
-- `exit`, `quit`, `bye` - Exit the application  
-=======
         # Import version safely
         try:
             from maahelper import __version__
@@ -421,7 +372,6 @@ Your intelligent coding assistant is ready. Awaiting command.
 ## 📝 Basic Commands
 - `help` - Show this help message
 - `exit`, `quit`, `bye` - Exit the application
->>>>>>> 9a27ace (Initial commit)
 - `clear` - Clear conversation history
 - `status` - Show current configuration
 - `files` - Show directory structure and supported files
@@ -436,10 +386,6 @@ Your intelligent coding assistant is ready. Awaiting command.
 - `switch model` - Change model
 - `providers` - List available providers
 - `models` - List models for current provider
-<<<<<<< HEAD
-
-## 💡 Features
-=======
 - `discover-models` - Refresh and discover all available models
 
 ## 🆕 New Features (v{__version__})
@@ -482,17 +428,13 @@ Your intelligent coding assistant is ready. Awaiting command.
 - `ide-analyze <file>` - Analyze file for IDE integration
 
 ## 💡 Core Features
->>>>>>> 9a27ace (Initial commit)
 - **Real-time streaming** responses for immediate feedback
 - **Multi-provider support** (OpenAI, Groq, Anthropic, Google, Ollama)
 - **Intelligent file processing** with AI analysis
 - **Rich formatting** with syntax highlighting
 - **Persistent conversation** history per session
-<<<<<<< HEAD
-=======
 - **Live code analysis** with error detection
 - **Smart Git operations** with AI assistance
->>>>>>> 9a27ace (Initial commit)
 
 ## 🎯 Current Configuration
 - **Provider:** {self.current_provider.upper()}
@@ -546,42 +488,6 @@ Your intelligent coding assistant is ready. Awaiting command.
         console.print(table)
         console.print()
     
-<<<<<<< HEAD
-    async def process_command(self, user_input: str) -> bool:
-        """Process special commands, return True if handled"""
-        command = user_input.lower().strip()
-        
-        if command in ['exit', 'quit', 'bye']:
-            console.print("👋 [bold blue]Thank you for using MaaHelper![/bold blue]")
-            console.print("[dim]Created by Meet Solanki (AIML Student)[/dim]")
-            return True
-            
-        elif command == 'help':
-            await self.show_help()
-            return False
-            
-        elif command == 'clear':
-            if self.conversation_manager:
-                self.conversation_manager.clear_history()
-            return False
-            
-        elif command == 'status':
-            await self.show_status()
-            return False
-            
-        elif command == 'files':
-            file_handler.show_supported_files_table()
-            return False
-            
-        elif command == 'files table':
-            file_handler.show_supported_files_table()
-            return False
-            
-        elif command == 'dir':
-            file_handler.show_directory_structure(show_files=False)
-            return False
-            
-=======
     async def process_command(self, user_input: str) -> tuple[bool, bool]:
         """Process special commands, return (should_exit, was_handled)"""
         command = user_input.lower().strip()
@@ -616,31 +522,10 @@ Your intelligent coding assistant is ready. Awaiting command.
             file_handler.show_directory_structure(show_files=False)
             return False, True
 
->>>>>>> 9a27ace (Initial commit)
         elif command.startswith('file-search '):
             filepath = command[12:].strip()
             if not filepath:
                 console.print("[red]Usage: file-search <filepath>[/red]")
-<<<<<<< HEAD
-                return False
-            
-            await file_handler.file_search_command(filepath, self.llm_client)
-            return False
-            
-        elif command == 'providers':
-            providers = api_key_manager.get_available_providers()
-            console.print(f"[green]Available providers:[/green] {', '.join(providers)}")
-            return False
-            
-        elif command == 'models':
-            models = get_provider_models(self.current_provider)
-            console.print(f"[green]Models for {self.current_provider.upper()}:[/green]")
-            for model in models[:10]:  # Show first 10
-                console.print(f"  • {model}")
-            return False
-            
-        return False  # Command not handled
-=======
                 return False, True
 
             await file_handler.file_search_command(filepath, self.llm_client)
@@ -997,24 +882,10 @@ Your intelligent coding assistant is ready. Awaiting command.
             return False, True
 
         return False, False  # Command not handled
->>>>>>> 9a27ace (Initial commit)
     
     async def main_loop(self):
         """Main interaction loop with Rich formatting"""
         console.print()
-<<<<<<< HEAD
-        welcome_panel = Panel.fit(
-            Align.center(
-                "[bold green]🎉 MaaHelper Ready![/bold green]\n\n"
-                "[yellow]💬 Start chatting or try these commands:[/yellow]\n"
-                "• [cyan]help[/cyan] - Show all commands\n"
-                "• [cyan]files[/cyan] - Browse workspace files\n"
-                "• [cyan]file-search <path>[/cyan] - Analyze any file with AI\n"
-                "• [cyan]status[/cyan] - Check current configuration\n\n"
-                "[dim]✨ Everything is beautifully formatted with Rich UI![/dim]"
-            ),
-            title="✨ Welcome to Your AI Assistant",
-=======
         # Import version safely
         try:
             from maahelper import __version__
@@ -1038,7 +909,6 @@ Your intelligent coding assistant is ready. Awaiting command.
                 "[dim]✨ New: Project workflows, IDE integration & deep VSCode support![/dim]"
             ),
             title=f"✨ Welcome to MaaHelper v{__version__}",
->>>>>>> 9a27ace (Initial commit)
             border_style="green",
             padding=(1, 2)
         )
@@ -1063,24 +933,6 @@ Your intelligent coding assistant is ready. Awaiting command.
                     continue
                 
                 # Process special commands with Rich feedback
-<<<<<<< HEAD
-                should_exit = await self.process_command(user_input)
-                if should_exit:
-                    break
-                
-                # Regular AI conversation with Rich status
-                if self.conversation_manager:
-                    console.print()
-                    with console.status("[bold blue]🤖 AI is thinking...", spinner="dots"):
-                        await asyncio.sleep(0.2)  # Brief pause for effect
-                    await self.conversation_manager.chat(user_input, self.system_prompt)
-                else:
-                    console.print(Panel.fit(
-                        "[bold red]❌ AI client not initialized[/bold red]\n"
-                        "[yellow]Please restart the application[/yellow]",
-                        border_style="red"
-                    ))
-=======
                 should_exit, was_handled = await self.process_command(user_input)
                 if should_exit:
                     break
@@ -1099,7 +951,6 @@ Your intelligent coding assistant is ready. Awaiting command.
                             "[yellow]Please restart the application[/yellow]",
                             border_style="red"
                         ))
->>>>>>> 9a27ace (Initial commit)
                     
             except KeyboardInterrupt:
                 console.print()
@@ -1145,10 +996,6 @@ def create_cli(session_id: str = "default", workspace_path: str = ".") -> Modern
 
 def show_rich_help():
     """Show Rich-formatted help"""
-<<<<<<< HEAD
-    help_panel = Panel.fit(
-        """[bold blue]🤖 MaaHelper v0.0.4[/bold blue]
-=======
     # Import version safely
     try:
         from maahelper import __version__
@@ -1156,16 +1003,11 @@ def show_rich_help():
         __version__ = "0.0.5"
     help_panel = Panel.fit(
         f"""[bold blue]🤖 MaaHelper v{__version__}[/bold blue]
->>>>>>> 9a27ace (Initial commit)
 [dim]Modern Enhanced CLI with Multi-Provider Support[/dim]
 👨‍💻 Created by Meet Solanki (AIML Student)
 
 [bold green]🚀 USAGE:[/bold green]
-<<<<<<< HEAD
-  [cyan]python -m ai_helper_agent.cli.modern_enhanced_cli[/cyan] [OPTIONS]
-=======
   [cyan]python -m maahelper.cli.modern_enhanced_cli[/cyan] [OPTIONS]
->>>>>>> 9a27ace (Initial commit)
   [cyan]ai-helper[/cyan] [OPTIONS]
 
 [bold green]📝 OPTIONS:[/bold green]
@@ -1183,17 +1025,10 @@ def show_rich_help():
 
 [bold green]🎯 EXAMPLES:[/bold green]
   [dim]# Start with default settings[/dim]
-<<<<<<< HEAD
-  [cyan]python -m ai_helper_agent.cli.modern_enhanced_cli[/cyan]
-  
-  [dim]# Custom session and workspace[/dim]
-  [cyan]ai-helper --session my_project --workspace /path/to/project[/cyan]
-=======
   [cyan]python -m maahelper.cli.modern_enhanced_cli[/cyan]
   
   [dim]# Custom session and workspace[/dim]
   [cyan]maahelper --session my_project --workspace /path/to/project[/cyan]
->>>>>>> 9a27ace (Initial commit)
 
 [bold green]💡 COMMANDS (once running):[/bold green]
   [cyan]help[/cyan]                    Show comprehensive help
@@ -1208,11 +1043,7 @@ def show_rich_help():
   • GROQ_API_KEY, OPENAI_API_KEY, ANTHROPIC_API_KEY, etc.
 
 [bold green]Ready to revolutionize your coding experience! 🚀[/bold green]""",
-<<<<<<< HEAD
-        title="🤖 MaaHelper v0.0.4 - Help",
-=======
         title=f"🤖 MaaHelper v{__version__} - Help",
->>>>>>> 9a27ace (Initial commit)
         border_style="blue",
         padding=(1, 2)
     )
@@ -1220,11 +1051,6 @@ def show_rich_help():
 
 def show_rich_version():
     """Show Rich-formatted version"""
-<<<<<<< HEAD
-    version_panel = Panel.fit(
-        """[bold blue]🤖 MaaHelper[/bold blue]
-[green]Version:[/green] [bold]0.0.4[/bold]
-=======
     # Import version safely
     try:
         from maahelper import __version__
@@ -1233,7 +1059,6 @@ def show_rich_version():
     version_panel = Panel.fit(
         f"""[bold blue]🤖 MaaHelper[/bold blue]
 [green]Version:[/green] [bold]{__version__}[/bold]
->>>>>>> 9a27ace (Initial commit)
 [green]Author:[/green] Meet Solanki (AIML Student)
 [green]Architecture:[/green] Modern OpenAI-based CLI
 [green]Features:[/green] Multi-Provider • Rich UI • Streaming • File Analysis
@@ -1284,11 +1109,6 @@ async def async_main():
             
         i += 1
 
-<<<<<<< HEAD
-    console.print()
-    console.print(Panel.fit(
-        "[bold blue]🤖 MaaHelper v0.0.4[/bold blue]\n"
-=======
     # Import version safely
     try:
         from maahelper import __version__
@@ -1297,7 +1117,6 @@ async def async_main():
     console.print()
     console.print(Panel.fit(
         f"[bold blue]🤖 MaaHelper v{__version__}[/bold blue]\n"
->>>>>>> 9a27ace (Initial commit)
         "[dim]Starting Modern Enhanced CLI...[/dim]\n"
         "👨‍💻 Created by Meet Solanki (AIML Student)",
         title="🚀 Initializing",
@@ -1308,10 +1127,6 @@ async def async_main():
     await cli.start()
 
 def main():
-<<<<<<< HEAD
-    asyncio.run(async_main())
-
-=======
     """Main entry point for console scripts"""
     asyncio.run(async_main())
 
@@ -1320,6 +1135,5 @@ def cli_entry():
     # This function is called by the console script entry points
     main()
 
->>>>>>> 9a27ace (Initial commit)
 if __name__ == "__main__":
     main()

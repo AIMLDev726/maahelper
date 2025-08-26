@@ -1,9 +1,5 @@
 """
-<<<<<<< HEAD
-AI Helper Agent - Modern CLI Selector
-=======
 MaaHelper - Modern CLI Selector
->>>>>>> 9a27ace (Initial commit)
 Entry point to launch the modern OpenAI-based CLI system
 """
 
@@ -17,10 +13,6 @@ from rich.panel import Panel
 from rich.table import Table
 from rich.prompt import Prompt, Confirm
 
-<<<<<<< HEAD
-from .modern_enhanced_cli import ModernEnhancedCLI
-=======
->>>>>>> 9a27ace (Initial commit)
 from ..managers.streamlined_api_key_manager import api_key_manager
 
 console = Console()
@@ -39,26 +31,16 @@ class ModernCLISelector:
         """Show welcome screen"""
         console.print()
         console.print(Panel.fit(
-<<<<<<< HEAD
-            "[bold blue]🤖 AI Helper Agent v0.0.4[/bold blue]\n"
-            "[bold green]Modern OpenAI-Compatible CLI System[/bold green]\n\n"
-=======
             "[bold blue]🤖 MaaHelper v0.0.5[/bold blue]\n"
             "[bold green]Advanced AI-Powered Coding Assistant[/bold green]\n\n"
->>>>>>> 9a27ace (Initial commit)
             "✅ [cyan]Streamlined OpenAI client integration[/cyan]\n"
             "🚀 [cyan]Ultra-fast responses with streaming[/cyan]\n"
             "📁 [cyan]Intelligent file processing with AI analysis[/cyan]\n"
             "🔧 [cyan]Multi-provider support (OpenAI, Groq, Anthropic, Google, Ollama)[/cyan]\n"
             "🎨 [cyan]Rich UI with syntax highlighting[/cyan]\n\n"
-<<<<<<< HEAD
-            "[dim]👨‍💻 Created by Meet Solanki (AIML Student)[/dim]",
-            title="🌟 Welcome to Modern AI Helper Agent",
-=======
             "🆕 [yellow]NEW: Dynamic models, real-time analysis & Git integration![/yellow]\n\n"
             "[dim]👨‍💻 Created by Meet Solanki (AIML Student)[/dim]",
             title="🌟 Welcome to MaaHelper v0.0.5",
->>>>>>> 9a27ace (Initial commit)
             border_style="blue"
         ))
         console.print()
@@ -73,12 +55,8 @@ class ModernCLISelector:
         if not available:
             console.print(Panel.fit(
                 "[bold red]⚠️ Setup Required[/bold red]\n\n"
-<<<<<<< HEAD
-                "[bold red]⚠️ For Free Ollama Models apikey provide random text like like abc,xyz,etc ...[/bold red]\n\n"
-=======
                 "[bold yellow]💡 For Ollama (local models):[/bold yellow] No API key required - leave empty or use any placeholder text\n"
                 "[bold yellow]💡 For cloud providers:[/bold yellow] Get your API key from the provider's website\n\n"
->>>>>>> 9a27ace (Initial commit)
                 "[yellow]No API keys found. The system needs at least one API key to function.[/yellow]\n\n"
                 "[cyan]Launching API Key Manager for setup...[/cyan]",
                 title="🔑 API Key Setup Required",
@@ -100,25 +78,8 @@ class ModernCLISelector:
     def show_available_providers(self):
         """Show available providers and their status"""
         # Dynamically fetch supported providers from PROVIDER_CONFIGS
-<<<<<<< HEAD
-        supported_providers = [
-        'openai',
-        'groq',
-        'anthropic',
-        'google',
-        'ollama',
-        'together',
-        'fireworks',
-        'openrouter',
-        'localai',
-        'deepinfra',
-        'perplexity',
-        'cerebras'
-    ]
-=======
         from ..core.llm_client import UnifiedLLMClient
         supported_providers = list(UnifiedLLMClient.PROVIDER_CONFIGS.keys())
->>>>>>> 9a27ace (Initial commit)
 
         available = api_key_manager.get_available_providers()
 
@@ -182,12 +143,6 @@ class ModernCLISelector:
         console.print(Panel.fit(
             "[bold green]🚀 Launching Modern Enhanced CLI[/bold green]\n"
             "[cyan]Features:[/cyan] OpenAI client, File processing, Streaming, Multi-provider",
-<<<<<<< HEAD
-            title="Starting AI Helper Agent",
-            border_style="green"
-        ))
-        
-=======
             title="Starting MaaHelper",
             border_style="green"
         ))
@@ -195,7 +150,6 @@ class ModernCLISelector:
         # Import CLI dynamically to avoid circular imports
         from .modern_enhanced_cli import ModernEnhancedCLI
 
->>>>>>> 9a27ace (Initial commit)
         # Create and start the modern CLI
         cli = ModernEnhancedCLI(workspace_path=str(self.workspace_path))
         await cli.start()
@@ -234,8 +188,6 @@ async def main():
 
 def cli_selector_entry():
     """Entry point for CLI selector command"""
-<<<<<<< HEAD
-=======
     # Handle --help and --version immediately before any setup
     args = sys.argv[1:] if len(sys.argv) > 1 else []
 
@@ -250,7 +202,6 @@ def cli_selector_entry():
             sys.exit(0)
 
     # If we get here, proceed with normal selector flow
->>>>>>> 9a27ace (Initial commit)
     asyncio.run(main())
 
 

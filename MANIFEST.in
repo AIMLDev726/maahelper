@@ -1,14 +1,6 @@
 # Include the README and other important files
 include README.md
 include LICENSE
-<<<<<<< HEAD
-include pyproject.toml
-include requirements.txt
-include run_cli.py
-
-# Include all Python files in package
-recursive-include ai_helper_agent *.py
-=======
 include CHANGELOG.md
 include CONTRIBUTING.md
 include pyproject.toml
@@ -16,7 +8,6 @@ include requirements.txt
 
 # Include all Python files in package
 recursive-include maahelper *.py
->>>>>>> 9a27ace (Initial commit)
 
 # Exclude unnecessary files
 global-exclude *.pyc

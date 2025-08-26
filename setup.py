@@ -137,19 +137,6 @@ setup(
     
     # Dependencies
     install_requires=[
-<<<<<<< HEAD
-        "langchain-groq>=0.1.0",
-        "langchain-core>=0.1.0", 
-        "langchain-community>=0.1.0",
-        "langchain>=0.1.0",
-        "rich>=13.0.0",
-        "structlog>=23.0.0",
-        "pathlib2; python_version<'3.4'",
-        "faiss-cpu>=1.7.0",
-        "chromadb>=0.4.0",
-        "cryptography>=3.4.0",
-        "sqlalchemy>=1.4.0",
-=======
         "openai>=1.0.0",
         "rich>=13.0.0",
         "click>=8.0.0",
@@ -164,7 +151,6 @@ setup(
         "PyYAML>=6.0",
         "watchdog>=3.0.0",  # New feature: Real-time file watching
         "pathlib2; python_version<'3.4'",
->>>>>>> 9a27ace (Initial commit)
         "ddgs>=0.9.0",
         "googlesearch-python>=1.2.0",
         "requests>=2.25.0",
@@ -214,19 +200,11 @@ setup(
     # Console scripts (command-line entry points)
     entry_points={
         'console_scripts': [
-<<<<<<< HEAD
-            # Modern Enhanced CLI (Primary Entry Points)
-            'ai-helper=maahelper.cli.modern_enhanced_cli:main',
-            'maahelper=maahelper.cli.modern_enhanced_cli:main',
-            'ai-helper-cli=maahelper.cli.modern_enhanced_cli:main',
-            'ai-helper-modern=maahelper.cli.modern_enhanced_cli:main',
-=======
             # Modern Enhanced CLI (Primary Entry Points) - Fixed to handle --help properly
             'ai-helper=maahelper.cli_entry:main',
             'maahelper=maahelper.cli_entry:main',
             'ai-helper-cli=maahelper.cli_entry:main',
             'ai-helper-modern=maahelper.cli_entry:main',
->>>>>>> 9a27ace (Initial commit)
 
             # API Key Manager Aliases
             'maahelper-keys=maahelper.managers.advanced_api_key_manager:main',

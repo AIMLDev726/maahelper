@@ -1,9 +1,5 @@
 """
-<<<<<<< HEAD
-AI Helper Agent - Modern Utils Module
-=======
 MaaHelper - Modern Utils Module
->>>>>>> 9a27ace (Initial commit)
 Streamlined utilities for OpenAI-based system
 """
 

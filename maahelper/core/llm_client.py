@@ -3,14 +3,7 @@ Unified LLM Client with OpenAI API support for multiple providers
 Replaces LangChain with direct OpenAI client integration
 """
 
-<<<<<<< HEAD
-import asyncio
-import json
-import os
-from typing import Dict, Any, Optional, List, AsyncIterator, Union
-=======
 from typing import Dict, Optional, List, AsyncIterator
->>>>>>> 9a27ace (Initial commit)
 from dataclasses import dataclass
 from openai import OpenAI, AsyncOpenAI
 from rich.console import Console
@@ -18,8 +11,6 @@ from rich.prompt import Prompt
 
 console = Console()
 
-<<<<<<< HEAD
-=======
 
 # Custom Exception Classes
 class LLMClientError(Exception):
@@ -56,7 +47,6 @@ class LLMStreamingError(LLMClientError):
     """Exception for streaming-related errors"""
     pass
 
->>>>>>> 9a27ace (Initial commit)
 @dataclass
 class LLMConfig:
     """Configuration for LLM providers"""
@@ -64,13 +54,8 @@ class LLMConfig:
     model: str
     api_key: str
     base_url: Optional[str] = None
-<<<<<<< HEAD
-    max_tokens: int = 4000
-    temperature: float = 0.1
-=======
     max_tokens: int = 2000
     temperature: float = 0.0
->>>>>>> 9a27ace (Initial commit)
     stream: bool = True
 
 class UnifiedLLMClient:
@@ -81,19 +66,11 @@ class UnifiedLLMClient:
     "openai": {
         "base_url": "https://api.openai.com/v1",
         "models": [
-<<<<<<< HEAD
-            "gpt-4.1",
-            "gpt-4o",
-            "gpt-4o-mini",
-            "gpt-4.1-mini",
-            "gpt-4.1-nano",
-=======
             "gpt-4o",
             "gpt-4o-mini",
             "gpt-4-turbo",
             "gpt-4",
             "gpt-3.5-turbo",
->>>>>>> 9a27ace (Initial commit)
             "gpt-3.5-turbo-0125"
         ]
     },
@@ -112,17 +89,10 @@ class UnifiedLLMClient:
     "anthropic": {
         "base_url": "https://api.anthropic.com/v1",
         "models": [
-<<<<<<< HEAD
-            "claude-opus-4-20250514",
-            "claude-sonnet-4-20250514",
-            "claude-3-5-sonnet-20241022",
-            "claude-3-5-haiku-20241022",
-=======
             "claude-3-5-sonnet-20241022",
             "claude-3-5-haiku-20241022",
             "claude-3-opus-20240229",
             "claude-3-sonnet-20240229",
->>>>>>> 9a27ace (Initial commit)
             "claude-3-haiku-20240307"
         ]
     },
@@ -204,8 +174,6 @@ class UnifiedLLMClient:
     def get_available_models(self, provider: str) -> List[str]:
         """Get available models for a provider"""
         return self.PROVIDER_CONFIGS.get(provider, {}).get("models", [])
-<<<<<<< HEAD
-=======
 
     async def fetch_models_from_api(self, provider: str, api_key: str) -> List[str]:
         """Fetch available models dynamically from provider API"""
@@ -270,7 +238,6 @@ class UnifiedLLMClient:
         except Exception as e:
             print(f"Error fetching models for {provider}: {e}")
             return self.get_available_models(provider)
->>>>>>> 9a27ace (Initial commit)
     
     def detect_provider_from_model(self, model_name: str) -> Optional[str]:
         """Auto-detect provider from model name"""
@@ -317,19 +284,6 @@ class UnifiedLLMClient:
     def chat_completion(self, messages: List[Dict[str, str]], **kwargs) -> str:
         """Synchronous chat completion"""
         try:
-<<<<<<< HEAD
-            response = self.client.chat.completions.create(
-                model=self.config.model,
-                messages=messages,
-                max_tokens=kwargs.get('max_tokens', self.config.max_tokens),
-                temperature=kwargs.get('temperature', self.config.temperature),
-                stream=False  # Non-streaming version
-            )
-            return response.choices[0].message.content
-        except Exception as e:
-            console.print(f"❌ [red]Chat completion error: {e}[/red]")
-            return f"Error: {str(e)}"
-=======
             # Prepare request parameters
             request_params = {
                 "model": self.config.model,
@@ -410,24 +364,10 @@ class UnifiedLLMClient:
                     model=self.config.model,
                     original_error=e
                 )
->>>>>>> 9a27ace (Initial commit)
     
     async def achat_completion(self, messages: List[Dict[str, str]], **kwargs) -> str:
         """Asynchronous chat completion"""
         try:
-<<<<<<< HEAD
-            response = await self.async_client.chat.completions.create(
-                model=self.config.model,
-                messages=messages,
-                max_tokens=kwargs.get('max_tokens', self.config.max_tokens),
-                temperature=kwargs.get('temperature', self.config.temperature),
-                stream=False
-            )
-            return response.choices[0].message.content
-        except Exception as e:
-            console.print(f"❌ [red]Async chat completion error: {e}[/red]")
-            return f"Error: {str(e)}"
-=======
             # Prepare request parameters
             request_params = {
                 "model": self.config.model,
@@ -508,28 +448,10 @@ class UnifiedLLMClient:
                     model=self.config.model,
                     original_error=e
                 )
->>>>>>> 9a27ace (Initial commit)
     
     async def stream_chat_completion(self, messages: List[Dict[str, str]], **kwargs) -> AsyncIterator[str]:
         """Streaming chat completion"""
         try:
-<<<<<<< HEAD
-            stream = await self.async_client.chat.completions.create(
-                model=self.config.model,
-                messages=messages,
-                max_tokens=kwargs.get('max_tokens', self.config.max_tokens),
-                temperature=kwargs.get('temperature', self.config.temperature),
-                stream=True
-            )
-            
-            async for chunk in stream:
-                if chunk.choices[0].delta.content:
-                    yield chunk.choices[0].delta.content
-                    
-        except Exception as e:
-            console.print(f"❌ [red]Streaming error: {e}[/red]")
-            yield f"Error: {str(e)}"
-=======
             # Prepare request parameters
             request_params = {
                 "model": self.config.model,
@@ -617,7 +539,6 @@ class UnifiedLLMClient:
                     model=self.config.model,
                     original_error=e
                 )
->>>>>>> 9a27ace (Initial commit)
     
     def simple_query(self, query: str, system_prompt: Optional[str] = None) -> str:
         """Simple query interface"""
@@ -644,17 +565,6 @@ class UnifiedLLMClient:
     async def stream_simple_query(self, query: str, system_prompt: Optional[str] = None) -> AsyncIterator[str]:
         """Streaming simple query interface"""
         messages = []
-<<<<<<< HEAD
-        
-        if system_prompt:
-            messages.append({"role": "system", "content": system_prompt})
-        
-        messages.append({"role": "user", "content": query})
-        
-        async for chunk in self.stream_chat_completion(messages):
-            yield chunk
-
-=======
 
         if system_prompt:
             messages.append({"role": "system", "content": system_prompt})
@@ -670,7 +580,6 @@ class UnifiedLLMClient:
         async for chunk in self.stream_simple_query(query, system_prompt):
             yield chunk
 
->>>>>>> 9a27ace (Initial commit)
 
 def create_llm_client(provider: str, model: str, api_key: str) -> UnifiedLLMClient:
     """Factory function to create LLM client"""
@@ -679,12 +588,6 @@ def create_llm_client(provider: str, model: str, api_key: str) -> UnifiedLLMClie
 
 # Provider-specific helper functions
 def get_provider_models(provider: str) -> List[str]:
-<<<<<<< HEAD
-    """Get available models for a provider"""
-    return UnifiedLLMClient.PROVIDER_CONFIGS.get(provider, {}).get("models", [])
-
-
-=======
     """Get available models for a provider (static fallback)"""
     return UnifiedLLMClient.PROVIDER_CONFIGS.get(provider, {}).get("models", [])
 
@@ -709,7 +612,6 @@ async def get_provider_models_dynamic(provider: str, api_key: Optional[str] = No
     return get_provider_models(provider)
 
 
->>>>>>> 9a27ace (Initial commit)
 def get_all_providers() -> List[str]:
     """Get list of all supported providers"""
     return list(UnifiedLLMClient.PROVIDER_CONFIGS.keys())

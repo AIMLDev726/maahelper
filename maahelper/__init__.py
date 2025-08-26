@@ -1,5 +1,9 @@
 """
+<<<<<<< HEAD
 AI Helper Agent - Modern Enhanced CLI Package
+=======
+MaaHelper - Modern Enhanced CLI Package
+>>>>>>> 9a27ace (Initial commit)
 Version 0.0.4 - Streamlined with OpenAI client integration
 Created by Meet Solanki (AIML Student)
 
@@ -27,17 +31,27 @@ Key Components:
 
 Usage:
     # Direct CLI usage
+<<<<<<< HEAD
     from ai_helper_agent.cli.modern_enhanced_cli import main
     import asyncio
     asyncio.run(main())
     
     # Or programmatic usage
     from ai_helper_agent import create_cli
+=======
+    from maahelper.cli.modern_enhanced_cli import main
+    import asyncio
+    asyncio.run(main())
+
+    # Or programmatic usage
+    from maahelper import create_cli
+>>>>>>> 9a27ace (Initial commit)
     cli = create_cli()
     await cli.start()
 """
 
 # Modern components
+<<<<<<< HEAD
 from .core.llm_client import UnifiedLLMClient, create_llm_client, get_all_providers, get_provider_models
 from .utils.streaming import ModernStreamingHandler, ConversationManager
 from .managers.streamlined_api_key_manager import api_key_manager
@@ -46,22 +60,97 @@ from .cli.modern_enhanced_cli import ModernEnhancedCLI, create_cli
 
 # Version info
 __version__ = "0.0.4"
+=======
+from .core.llm_client import (
+    UnifiedLLMClient, create_llm_client, get_all_providers, get_provider_models, get_provider_models_dynamic,
+    LLMClientError, LLMConnectionError, LLMAuthenticationError, LLMRateLimitError, LLMModelError, LLMStreamingError
+)
+
+# Configuration and utilities
+from .config.config_manager import config_manager
+from .utils.input_validator import input_validator
+from .utils.memory_manager import memory_manager
+from .utils.rate_limiter import global_rate_limiter
+from .utils.logging_system import get_logger
+
+# New features (v0.0.5) - Import lazily to avoid circular imports
+def get_model_discovery():
+    from .features.model_discovery import model_discovery
+    return model_discovery
+
+def get_realtime_analyzer():
+    from .features.realtime_analysis import realtime_analyzer
+    return realtime_analyzer
+
+def get_git_integration():
+    from .features.git_integration import git_integration
+    return git_integration
+
+# Core utilities (safe to import)
+from .utils.streaming import ModernStreamingHandler, ConversationManager
+from .managers.streamlined_api_key_manager import api_key_manager
+from .utils.streamlined_file_handler import file_handler
+
+# CLI (import lazily)
+def get_cli():
+    from .cli.modern_enhanced_cli import ModernEnhancedCLI, create_cli
+    return ModernEnhancedCLI, create_cli
+
+# Version info
+__version__ = "0.0.5"
+>>>>>>> 9a27ace (Initial commit)
 __author__ = "Meet Solanki (AIML Student)"
 __email__ = "aistudentlearn4@gmail.com"
 
 # Package metadata
+<<<<<<< HEAD
 __title__ = "ai-helper-agent"
 __description__ = "Modern AI Helper Agent with OpenAI client integration and multi-provider support"
 __url__ = "https://github.com/AIMLDev726/ai-helper-agent"
+=======
+__title__ = "maahelper"
+__description__ = "MaaHelper - Advanced AI-powered coding assistant with real-time analysis and Git integration"
+__url__ = "https://github.com/AIMLDev726/maahelper"
+>>>>>>> 9a27ace (Initial commit)
 __license__ = "MIT"
 
 # Modern exports
 __all__ = [
     # Core LLM functionality
     "UnifiedLLMClient",
+<<<<<<< HEAD
     "create_llm_client", 
     "get_all_providers",
     "get_provider_models",
+=======
+    "create_llm_client",
+    "get_all_providers",
+    "get_provider_models",
+    "get_provider_models_dynamic",
+
+    # Exception classes
+    "LLMClientError",
+    "LLMConnectionError",
+    "LLMAuthenticationError",
+    "LLMRateLimitError",
+    "LLMModelError",
+    "LLMStreamingError",
+
+    # Configuration management
+    "config_manager",
+
+    # Utilities
+    "input_validator",
+    "memory_manager",
+    "global_rate_limiter",
+    "get_logger",
+
+    # New features (v0.0.5) - Lazy loading functions
+    "get_model_discovery",
+    "get_realtime_analyzer",
+    "get_git_integration",
+    "get_cli",
+>>>>>>> 9a27ace (Initial commit)
     
     # Streaming and conversation
     "ModernStreamingHandler",

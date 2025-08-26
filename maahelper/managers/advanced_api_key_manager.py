@@ -1,5 +1,9 @@
 """
+<<<<<<< HEAD
 Advanced API Key Manager for AI Helper Agent v0.0.4
+=======
+Advanced API Key Manager for MaaHelper v0.0.5
+>>>>>>> 9a27ace (Initial commit)
 Secure local storage in C:/Users/{username}/.maahelper/
 With Rich UI for password-protected management
 """
@@ -29,6 +33,7 @@ class AdvancedAPIKeyManager:
     """Advanced API Key Manager with Rich UI and secure local storage"""
     
     def __init__(self):
+<<<<<<< HEAD
         # Create ~/.maahelper directory in user's home
         self.config_dir = Path.home() / ".maahelper"
         self.config_file = self.config_dir / "config.json"
@@ -36,6 +41,29 @@ class AdvancedAPIKeyManager:
         
         # Ensure directory exists
         self.config_dir.mkdir(exist_ok=True)
+=======
+        # Get configuration directory from environment or use default
+        config_dir_env = os.getenv('MAAHELPER_CONFIG_DIR')
+        if config_dir_env:
+            self.config_dir = Path(config_dir_env).expanduser().resolve()
+        else:
+            self.config_dir = Path.home() / ".maahelper"
+
+        self.config_file = self.config_dir / "config.json"
+        self.key_file = self.config_dir / "keyring.key"
+
+        # Ensure directory exists
+        try:
+            self.config_dir.mkdir(parents=True, exist_ok=True)
+        except PermissionError:
+            # Fallback to temp directory if home directory is not writable
+            import tempfile
+            self.config_dir = Path(tempfile.gettempdir()) / "maahelper"
+            self.config_file = self.config_dir / "config.json"
+            self.key_file = self.config_dir / "keyring.key"
+            self.config_dir.mkdir(parents=True, exist_ok=True)
+            console.print(f"[yellow]⚠ Using temporary config directory: {self.config_dir}[/yellow]")
+>>>>>>> 9a27ace (Initial commit)
         
         # Initialize encryption
         self.fernet = None
@@ -137,12 +165,47 @@ class AdvancedAPIKeyManager:
                 salt = os.urandom(16)
                 with open(self.key_file, 'wb') as f:
                     f.write(salt)
+<<<<<<< HEAD
             
             key = self._derive_key(password, salt)
             self.fernet = Fernet(key)
             self.is_unlocked = True
             return True
             
+=======
+
+            key = self._derive_key(password, salt)
+            self.fernet = Fernet(key)
+
+            # Verify password correctness before marking as unlocked
+            if self.config_file.exists():
+                # Try to decrypt existing config to validate password
+                try:
+                    with open(self.config_file, 'rb') as f:
+                        encrypted_data = f.read()
+                    if encrypted_data:
+                        # Attempt decryption - this will fail if password is wrong
+                        self.fernet.decrypt(encrypted_data)
+                except Exception:
+                    console.print("[red]❌ Incorrect password. Unable to decrypt existing data.[/red]")
+                    return False
+            else:
+                # No existing config - perform a test encrypt/decrypt cycle
+                try:
+                    test_data = b"password_verification_test"
+                    encrypted_test = self.fernet.encrypt(test_data)
+                    decrypted_test = self.fernet.decrypt(encrypted_test)
+                    if decrypted_test != test_data:
+                        console.print("[red]❌ Password verification failed.[/red]")
+                        return False
+                except Exception:
+                    console.print("[red]❌ Password verification failed.[/red]")
+                    return False
+
+            self.is_unlocked = True
+            return True
+
+>>>>>>> 9a27ace (Initial commit)
         except Exception as e:
             console.print(f"[red]❌ Encryption setup failed: {e}[/red]")
             return False
@@ -186,7 +249,11 @@ class AdvancedAPIKeyManager:
         console.print()
         welcome_panel = Panel.fit(
             Align.center(
+<<<<<<< HEAD
                 "[bold blue]🔐 AI Helper Agent - API Key Manager[/bold blue]\n\n"
+=======
+                "[bold blue]🔐 MaaHelper - API Key Manager[/bold blue]\n\n"
+>>>>>>> 9a27ace (Initial commit)
                 "[green]Secure Local Storage:[/green]\n"
                 f"📁 {self.config_dir}\n\n"
                 "[yellow]Features:[/yellow]\n"
@@ -508,7 +575,11 @@ class AdvancedAPIKeyManager:
             elif choice == "5":
                 console.print()
                 console.print(Panel.fit(
+<<<<<<< HEAD
                     "[bold blue]👋 Thanks for using AI Helper Agent![/bold blue]\n"
+=======
+                    "[bold blue]👋 Thanks for using MaaHelper![/bold blue]\n"
+>>>>>>> 9a27ace (Initial commit)
                     "[dim]Your API keys are safely encrypted and stored locally[/dim]",
                     title="🔐 Goodbye",
                     border_style="blue"

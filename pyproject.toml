@@ -4,8 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "maahelper"
+<<<<<<< HEAD
 version = "0.0.4"
 description = "Interactive MaaHelper for code assistance, analysis, and bug fixing with internet access"
+=======
+version = "0.0.5"
+description = "MaaHelper - Advanced AI-powered coding assistant with real-time analysis and Git integration"
+>>>>>>> 9a27ace (Initial commit)
 readme = "README.md"
 license = "MIT"
 authors = [
@@ -18,15 +23,28 @@ keywords = ["ai", "assistant", "code-analysis", "bug-fixing", "automation"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
+<<<<<<< HEAD
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Software Development :: Quality Assurance",
+=======
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+>>>>>>> 9a27ace (Initial commit)
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+<<<<<<< HEAD
     "Operating System :: OS Independent"
+=======
+    "Operating System :: OS Independent",
+    "Environment :: Console"
+>>>>>>> 9a27ace (Initial commit)
 ]
 requires-python = ">=3.8"
 dependencies = [
@@ -34,8 +52,20 @@ dependencies = [
     "rich>=13.0.0",
     "structlog>=23.0.0",
     "cryptography>=3.4.0",
+<<<<<<< HEAD
     "pathlib2; python_version<'3.4'",
     "googlesearch-python>=1.2.0"
+=======
+    "aiohttp>=3.8.0",
+    "aiofiles",
+    "watchdog>=3.0.0",
+    "gitpython>=3.1.0",
+    "pathlib2; python_version<'3.4'",
+    "googlesearch-python>=1.2.0",
+    "typing-extensions>=4.0.0; python_version<'3.10'",
+    "aiofiles>=23.0.0",
+    "pygls>=1.0.0; extra=='lsp'"
+>>>>>>> 9a27ace (Initial commit)
 ]
 
 [project.scripts]
@@ -64,14 +94,27 @@ maahelper-advanced = "maahelper.cli.modern_enhanced_cli:main"
 maahelper-dev = "maahelper.cli.modern_enhanced_cli:main"
 maahelper-expert = "maahelper.cli.modern_enhanced_cli:main"
 
+<<<<<<< HEAD
 # Legacy compatibility
 maahelper = "maahelper.cli.modern_cli_selector:cli_selector_entry"
+=======
+# Primary entry point - handles --help/--version properly
+maahelper = "maahelper.cli_entry:main"
+>>>>>>> 9a27ace (Initial commit)
 
 # API Key Management Aliases
 maahelper-keys = "maahelper.managers.advanced_api_key_manager:main"
 maahelper-api-key = "maahelper.managers.advanced_api_key_manager:main"
 maahelper-setup-keys = "maahelper.managers.advanced_api_key_manager:main"
 
+<<<<<<< HEAD
+=======
+# IDE Integration and Workflows
+maahelper-lsp = "maahelper.lsp.server:main"
+maahelper-workflow = "maahelper.workflows.commands:main"
+maahelper-ide = "maahelper.ide.commands:main"
+
+>>>>>>> 9a27ace (Initial commit)
 [project.optional-dependencies]
 dev = [
     "pytest>=6.0",
@@ -85,6 +128,19 @@ test = [
     "pytest>=6.0",
     "pytest-cov"
 ]
+<<<<<<< HEAD
+=======
+lsp = [
+    "pygls>=1.0.0"
+]
+ide = [
+    "pygls>=1.0.0",
+    "aiofiles>=23.0.0"
+]
+workflows = [
+    "aiofiles>=23.0.0"
+]
+>>>>>>> 9a27ace (Initial commit)
 
 [project.urls]
 Homepage = "https://github.com/AIMLDev726/maahelper"

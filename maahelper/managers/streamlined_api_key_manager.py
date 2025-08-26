@@ -1,5 +1,9 @@
 """
+<<<<<<< HEAD
 Streamlined API Key Manager for AI Helper Agent v0.0.4
+=======
+Streamlined API Key Manager for MaaHelper
+>>>>>>> 9a27ace (Initial commit)
 Uses the advanced secure local storage system
 """
 

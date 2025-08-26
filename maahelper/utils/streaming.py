@@ -1,5 +1,9 @@
 """
+<<<<<<< HEAD
 Modern Streaming Response Handler for AI Helper Agent
+=======
+Modern Streaming Response Handler for MaaHelper
+>>>>>>> 9a27ace (Initial commit)
 Uses OpenAI client for real-time LLM response streaming with Rich UI
 """
 
@@ -21,14 +25,62 @@ from ..core.llm_client import UnifiedLLMClient
 
 console = Console()
 
+<<<<<<< HEAD
 class ModernStreamingHandler:
     """Modern streaming handler with Rich UI integration"""
     
+=======
+
+class TokenCounter:
+    """Accurate token counting using tiktoken"""
+
+    def __init__(self):
+        self.encoder = None
+        self._initialize_encoder()
+
+    def _initialize_encoder(self):
+        """Initialize tiktoken encoder"""
+        try:
+            import tiktoken
+            # Use cl100k_base encoding (used by GPT-4, GPT-3.5-turbo)
+            self.encoder = tiktoken.get_encoding("cl100k_base")
+        except ImportError:
+            console.print("[dim]⚠ tiktoken not available, using word-based approximation[/dim]")
+            self.encoder = None
+
+    def count_tokens(self, text: str) -> int:
+        """Count tokens in text"""
+        if not text:
+            return 0
+
+        if self.encoder:
+            try:
+                return len(self.encoder.encode(text))
+            except Exception:
+                # Fallback to word count approximation
+                pass
+
+        # Fallback: approximate tokens as words * 1.3 (rough estimate)
+        words = len(text.split())
+        return int(words * 1.3)
+
+    def count_tokens_incremental(self, chunk: str) -> int:
+        """Count tokens in a chunk (for streaming)"""
+        return self.count_tokens(chunk)
+
+class ModernStreamingHandler:
+    """Modern streaming handler with Rich UI integration"""
+
+>>>>>>> 9a27ace (Initial commit)
     def __init__(self, llm_client: UnifiedLLMClient):
         self.llm_client = llm_client
         self.response_buffer = ""
         self.total_tokens = 0
         self.start_time = None
+<<<<<<< HEAD
+=======
+        self.token_counter = TokenCounter()
+>>>>>>> 9a27ace (Initial commit)
         
     async def stream_response(self, query: str, system_prompt: str = None,
                              show_stats: bool = True) -> str:
@@ -56,7 +108,11 @@ class ModernStreamingHandler:
                     if chunk:
                         display_text += chunk
                         self.response_buffer += chunk
+<<<<<<< HEAD
                         self.total_tokens += len(chunk.split())
+=======
+                        self.total_tokens += self.token_counter.count_tokens_incremental(chunk)
+>>>>>>> 9a27ace (Initial commit)
                         
                         # Try to render as Markdown, fall back to Text if it fails
                         try:
@@ -102,6 +158,7 @@ class ModernStreamingHandler:
             return self.response_buffer
             
         except Exception as e:
+<<<<<<< HEAD
             error_panel = Panel.fit(
                 f"[red]❌ Streaming error: {str(e)}[/red]",
                 title="[red]Error[/red]",
@@ -109,6 +166,60 @@ class ModernStreamingHandler:
             )
             console.print(error_panel)
             return f"❌ Streaming error: {e}"
+=======
+            # Import exception classes for proper error handling
+            from ..core.llm_client import (
+                LLMClientError, LLMConnectionError, LLMAuthenticationError,
+                LLMRateLimitError, LLMModelError, LLMStreamingError
+            )
+
+            # Handle specific LLM errors with appropriate messages
+            if isinstance(e, LLMAuthenticationError):
+                error_msg = f"❌ Authentication failed: {e.message}"
+                error_panel = Panel.fit(
+                    f"[red]{error_msg}[/red]\n[dim]Please check your API key for {e.provider}[/dim]",
+                    title="[red]Authentication Error[/red]",
+                    border_style="red"
+                )
+            elif isinstance(e, LLMRateLimitError):
+                error_msg = f"❌ Rate limit exceeded: {e.message}"
+                error_panel = Panel.fit(
+                    f"[red]{error_msg}[/red]\n[dim]Please wait before making more requests[/dim]",
+                    title="[red]Rate Limit Error[/red]",
+                    border_style="red"
+                )
+            elif isinstance(e, LLMModelError):
+                error_msg = f"❌ Model error: {e.message}"
+                error_panel = Panel.fit(
+                    f"[red]{error_msg}[/red]\n[dim]Please check if the model {e.model} is available[/dim]",
+                    title="[red]Model Error[/red]",
+                    border_style="red"
+                )
+            elif isinstance(e, LLMConnectionError):
+                error_msg = f"❌ Connection error: {e.message}"
+                error_panel = Panel.fit(
+                    f"[red]{error_msg}[/red]\n[dim]Please check your internet connection[/dim]",
+                    title="[red]Connection Error[/red]",
+                    border_style="red"
+                )
+            elif isinstance(e, (LLMStreamingError, LLMClientError)):
+                error_msg = f"❌ LLM error: {e.message}"
+                error_panel = Panel.fit(
+                    f"[red]{error_msg}[/red]",
+                    title="[red]LLM Error[/red]",
+                    border_style="red"
+                )
+            else:
+                error_msg = f"❌ Streaming error: {str(e)}"
+                error_panel = Panel.fit(
+                    f"[red]{error_msg}[/red]",
+                    title="[red]Error[/red]",
+                    border_style="red"
+                )
+
+            console.print(error_panel)
+            return error_msg
+>>>>>>> 9a27ace (Initial commit)
     
     async def quick_response(self, query: str, system_prompt: str = None) -> str:
         """Quick response without streaming UI"""
@@ -140,7 +251,11 @@ class ModernStreamingHandler:
                     if chunk:
                         display_text += chunk
                         self.response_buffer += chunk
+<<<<<<< HEAD
                         self.total_tokens += len(chunk.split())
+=======
+                        self.total_tokens += self.token_counter.count_tokens_incremental(chunk)
+>>>>>>> 9a27ace (Initial commit)
                         
                         # Try to render as Markdown, fall back to Text if it fails
                         try:

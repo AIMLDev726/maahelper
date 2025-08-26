@@ -1,5 +1,9 @@
 """
+<<<<<<< HEAD
 AI Helper Agent - Modern CLI Module
+=======
+MaaHelper - Modern CLI Module
+>>>>>>> 9a27ace (Initial commit)
 OpenAI-based CLI system with streamlined architecture
 """
 
@@ -14,5 +18,9 @@ __all__ = [
 ]
 
 # Version info
+<<<<<<< HEAD
 __version__ = "0.0.4"
+=======
+from .. import __version__
+>>>>>>> 9a27ace (Initial commit)
 __author__ = "Meet Solanki (AIML Student)"

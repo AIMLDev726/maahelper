@@ -152,10 +152,14 @@ api_keys.json
 *.log
 
 # Development and test files
-test_*.py
 debug_*.py
 scratch_*.py
 temp_*.py
+fix_critical_issues.py
+run_comprehensive_tests.py
+maahelper_test_results.json
+FINAL_ISSUE_SUMMARY.md
+MAAHELPER_COMPREHENSIVE_ISSUE_REPORT.md
 
 # Backup files
 *.bak

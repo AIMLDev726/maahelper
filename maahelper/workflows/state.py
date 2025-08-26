@@ -19,6 +19,8 @@ class WorkflowState:
     """Represents the state of a workflow at a point in time"""
     workflow_id: str
     status: str  # created, running, paused, completed, failed, cancelled
+    # Persisted workflow definition used for resume/status
+    definition: Optional[Dict[str, Any]] = None
     current_step: Optional[str] = None
     completed_steps: List[str] = None
     failed_steps: List[str] = None
@@ -26,7 +28,7 @@ class WorkflowState:
     checkpoints: List[Dict[str, Any]] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
-    
+
     def __post_init__(self):
         if self.completed_steps is None:
             self.completed_steps = []
@@ -79,16 +81,23 @@ class WorkflowStateManager:
                 # Save to file
                 state_file = self.state_dir / f"{workflow_id}.json"
                 state_dict = asdict(state)
-                
-                # Convert datetime objects to ISO strings
-                if state_dict.get('created_at'):
-                    state_dict['created_at'] = state.created_at.isoformat()
-                if state_dict.get('updated_at'):
-                    state_dict['updated_at'] = state.updated_at.isoformat()
-                
+
+                # Convert datetime objects to ISO strings (recursively)
+                def _serialize(obj):
+                    from datetime import datetime as _dt
+                    if isinstance(obj, _dt):
+                        return obj.isoformat()
+                    if isinstance(obj, dict):
+                        return {k: _serialize(v) for k, v in obj.items()}
+                    if isinstance(obj, list):
+                        return [_serialize(v) for v in obj]
+                    return obj
+
+                state_serializable = _serialize(state_dict)
+
                 async with aiofiles.open(state_file, 'w') as f:
-                    await f.write(json.dumps(state_dict, indent=2))
-                
+                    await f.write(json.dumps(state_serializable, indent=2))
+
                 logger.info(f"Saved workflow state for {workflow_id}")
                 return True
                 

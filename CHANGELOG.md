@@ -5,6 +5,41 @@ All notable changes to MaaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2025-08-26
+
+### 🎉 Production Release
+- **First stable release** of MaaHelper
+- **Production-ready** codebase with comprehensive testing
+- **Full PyPI deployment** with automated CI/CD
+
+### Fixed
+- **Workflow Engine**: Fixed critical runtime errors in workflow state management
+  - Added missing `definition` field to WorkflowState dataclass
+  - Fixed undefined variable references in workflow execution
+  - Improved workflow resume functionality with proper dataclass hydration
+  - Added recursive datetime serialization for complex workflow state
+- **CLI Entry Points**: Verified all CLI commands work correctly
+  - `maahelper-workflow` and `maahelper-ide` entry points functional
+  - All pyproject.toml script mappings validated
+- **File Handler API**: Confirmed all expected methods are present and working
+  - `is_supported_file()`, `detect_language()`, `scan_workspace()`, `analyze_file()`
+
+### Improved
+- **Package Structure**: Cleaned up repository for production deployment
+  - Removed development/testing artifacts
+  - Updated MANIFEST.in for proper packaging
+  - Enhanced .gitignore for cleaner repository
+- **Documentation**: Updated all version references to 1.0.0
+- **Deployment**: Added automated deployment scripts and GitHub Actions
+
+### Infrastructure
+- **CI/CD Pipeline**: Complete GitHub Actions workflow
+  - Multi-platform testing (Ubuntu, Windows, macOS)
+  - Python 3.8-3.12 compatibility testing
+  - Automated PyPI deployment on release
+  - Security scanning with safety and bandit
+- **Deployment Tools**: Added deployment script for easy PyPI publishing
+
 ## [0.0.5] - 2025-08-26
 
 ### Added

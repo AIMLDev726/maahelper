@@ -159,23 +159,25 @@ class ModernCLISelector:
         try:
             # Show welcome
             self.show_welcome()
-            
+
             # Check setup
             if not self.check_setup():
                 console.print("[yellow]Please configure API keys and try again.[/yellow]")
                 return
-            
+
             # Show provider status
             self.show_available_providers()
-            
+
             # Select workspace
             self.select_workspace()
-            
+
             # Launch the CLI
             await self.launch_modern_cli()
-            
+
         except KeyboardInterrupt:
             console.print("\n[yellow]👋 Goodbye![/yellow]")
+        except asyncio.CancelledError:
+            console.print("\n[yellow]👋 Session cancelled. Goodbye![/yellow]")
         except Exception as e:
             console.print(f"[red]❌ Error: {e}[/red]")
 
@@ -202,8 +204,18 @@ def cli_selector_entry():
             sys.exit(0)
 
     # If we get here, proceed with normal selector flow
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        console.print("\n[yellow]👋 Goodbye![/yellow]")
+    except Exception as e:
+        console.print(f"[red]❌ Error: {e}[/red]")
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        console.print("\n[yellow]👋 Goodbye![/yellow]")
+    except Exception as e:
+        console.print(f"[red]❌ Error: {e}[/red]")

@@ -30,3 +30,9 @@ prune tests
 prune scripts
 prune generated
 prune docs
+prune htmlcov
+exclude fix_critical_issues.py
+exclude run_comprehensive_tests.py
+exclude maahelper_test_results.json
+exclude FINAL_ISSUE_SUMMARY.md
+exclude MAAHELPER_COMPREHENSIVE_ISSUE_REPORT.md

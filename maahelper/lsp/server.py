@@ -15,7 +15,7 @@ from pathlib import Path
 
 try:
     from pygls.server import LanguageServer
-    from pygls.lsp.types import (
+    from lsprotocol.types import (
         InitializeParams,
         InitializeResult,
         ServerCapabilities,
@@ -46,6 +46,47 @@ except ImportError:
         def start_tcp(self, host, port):
             print(f"LSP Server would start on {host}:{port} (pygls not installed)")
 
+    # Fallback type definitions for when pygls is not available
+    class InitializeParams:
+        def __init__(self):
+            self.workspace_folders = None
+            self.root_uri = None
+
+    class InitializeResult:
+        def __init__(self, capabilities=None):
+            self.capabilities = capabilities
+
+    class ServerCapabilities:
+        def __init__(self, **kwargs):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+
+    class TextDocumentSyncKind:
+        Incremental = 2
+
+    class CompletionOptions:
+        def __init__(self, trigger_characters=None, resolve_provider=False):
+            self.trigger_characters = trigger_characters or []
+            self.resolve_provider = resolve_provider
+
+    class HoverOptions:
+        def __init__(self):
+            pass
+
+    class CodeActionOptions:
+        def __init__(self, code_action_kinds=None):
+            self.code_action_kinds = code_action_kinds or []
+
+    class DiagnosticOptions:
+        def __init__(self, inter_file_dependencies=False, workspace_diagnostics=False):
+            self.inter_file_dependencies = inter_file_dependencies
+            self.workspace_diagnostics = workspace_diagnostics
+
+    class WorkspaceFolder:
+        def __init__(self, uri=None, name=None):
+            self.uri = uri
+            self.name = name
+
 from ..core.llm_client import UnifiedLLMClient, create_llm_client
 from ..managers.streamlined_api_key_manager import api_key_manager
 from .handlers import (
@@ -60,7 +101,7 @@ logger = logging.getLogger(__name__)
 
 class MaaHelperLSPServer:
     """Main Language Server Protocol server for MaaHelper"""
-    
+
     def __init__(self):
         self.server = LanguageServer('maahelper-lsp', 'v0.1.0')
         self.llm_client: Optional[UnifiedLLMClient] = None
@@ -70,8 +111,12 @@ class MaaHelperLSPServer:
         self.diagnostics_handler: Optional[DiagnosticsHandler] = None
         self.hover_handler: Optional[HoverHandler] = None
         self.code_action_handler: Optional[CodeActionHandler] = None
-        
-        self._setup_handlers()
+
+        # Only setup handlers if pygls is available
+        if PYGLS_AVAILABLE:
+            self._setup_handlers()
+        else:
+            logger.warning("pygls not available. LSP server will have limited functionality.")
     
     def _setup_handlers(self):
         """Setup LSP message handlers"""
@@ -215,11 +260,23 @@ class MaaHelperLSPServer:
     
     def start_server(self, port: int = 2087):
         """Start the LSP server"""
+        if not PYGLS_AVAILABLE:
+            logger.warning("pygls not installed. Cannot start LSP server.")
+            print("❌ LSP Server cannot start: pygls not installed")
+            print("💡 Install pygls with: pip install pygls")
+            return
+
         logger.info(f"Starting MaaHelper LSP Server on port {port}")
         self.server.start_tcp('localhost', port)
-    
+
     def start_stdio(self):
         """Start the LSP server using stdio"""
+        if not PYGLS_AVAILABLE:
+            logger.warning("pygls not installed. Cannot start LSP server.")
+            print("❌ LSP Server cannot start: pygls not installed")
+            print("💡 Install pygls with: pip install pygls")
+            return
+
         logger.info("Starting MaaHelper LSP Server with stdio")
         self.server.start_io()
 
@@ -240,9 +297,15 @@ def main():
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
     
+    # Check if pygls is available
+    if not PYGLS_AVAILABLE:
+        print("❌ Cannot start LSP server: pygls not installed")
+        print("💡 Install pygls with: pip install pygls")
+        sys.exit(1)
+
     # Create and start server
     server = MaaHelperLSPServer()
-    
+
     try:
         if args.stdio:
             server.start_stdio()

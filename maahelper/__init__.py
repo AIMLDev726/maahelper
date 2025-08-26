@@ -1,6 +1,6 @@
 """
 MaaHelper - Modern Enhanced CLI Package
-Version 0.0.4 - Streamlined with OpenAI client integration
+Version 1.0.0 - Production Release
 Created by Meet Solanki (AIML Student)
 
 A comprehensive AI-powered programming assistant with advanced code generation,
@@ -50,7 +50,7 @@ from .utils.memory_manager import memory_manager
 from .utils.rate_limiter import global_rate_limiter
 from .utils.logging_system import get_logger
 
-# New features (v0.0.5) - Import lazily to avoid circular imports
+# New features (v1.0.0) - Import lazily to avoid circular imports
 def get_model_discovery():
     from .features.model_discovery import model_discovery
     return model_discovery
@@ -74,7 +74,7 @@ def get_cli():
     return ModernEnhancedCLI, create_cli
 
 # Version info
-__version__ = "0.0.5"
+__version__ = "1.0.0"
 __author__ = "Meet Solanki (AIML Student)"
 __email__ = "aistudentlearn4@gmail.com"
 
@@ -110,7 +110,7 @@ __all__ = [
     "global_rate_limiter",
     "get_logger",
 
-    # New features (v0.0.5) - Lazy loading functions
+    # New features (v1.0.0) - Lazy loading functions
     "get_model_discovery",
     "get_realtime_analyzer",
     "get_git_integration",

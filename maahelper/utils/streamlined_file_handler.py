@@ -70,6 +70,58 @@ class StreamlinedFileHandler:
         self.workspace_path = Path(workspace_path).resolve()
         self.max_file_size = 50 * 1024 * 1024  # 50MB limit
         
+
+    def is_supported_file(self, filename: str) -> bool:
+        """Check if file type is supported"""
+        from pathlib import Path
+        return Path(filename).suffix in self.SUPPORTED_EXTENSIONS
+
+    def detect_language(self, filename: str) -> str:
+        """Detect language from file extension"""
+        from pathlib import Path
+        return self.SUPPORTED_EXTENSIONS.get(Path(filename).suffix, 'text')
+
+    def scan_workspace(self, workspace_path: str = None, extensions: list = None) -> list:
+        """Scan workspace for supported files"""
+        if workspace_path is None:
+            workspace_path = str(self.workspace_path)
+        
+        workspace = Path(workspace_path)
+        if not workspace.exists():
+            return []
+        
+        files = []
+        search_extensions = extensions or list(self.SUPPORTED_EXTENSIONS.keys())
+        
+        for ext in search_extensions:
+            pattern = f"**/*{ext}"
+            for file_path in workspace.glob(pattern):
+                if file_path.is_file():
+                    files.append(str(file_path))
+        
+        return files
+
+    def analyze_file(self, file_path: str) -> dict:
+        """Analyze a single file"""
+        try:
+            path = Path(file_path)
+            if not path.exists():
+                return {"error": "File not found"}
+            
+            if not path.is_file():
+                return {"error": "Not a file"}
+            
+            content = path.read_text(encoding='utf-8', errors='ignore')
+            
+            return {
+                "file_path": str(path),
+                "language": self.detect_language(path.name),
+                "content": content,
+                "size": len(content),
+                "lines": content.count('\n') + 1
+            }
+        except Exception as e:
+            return {"error": str(e)}
     def show_directory_structure(self, max_depth: int = 3, show_files: bool = False) -> str:
         """Show directory structure as a tree"""
         try:

@@ -702,14 +702,24 @@ Your intelligent coding assistant is ready. Awaiting command.
 
                 # Get code from user
                 code = Prompt.ask("📝 Enter code to review (or file path)")
-                if code.endswith('.py') or code.endswith('.js') or code.endswith('.ts'):
-                    # Try to read file
+                if code.endswith('.py') or code.endswith('.js') or code.endswith('.ts') or code.endswith('.java') or code.endswith('.cpp') or code.endswith('.c'):
+                    # Try to read file - check both relative to workspace and absolute paths
                     try:
-                        with open(code, 'r') as f:
-                            code_content = f.read()
-                        language = code.split('.')[-1]
-                    except:
-                        console.print(f"[red]Could not read file: {code}[/red]")
+                        file_path = Path(code)
+                        if not file_path.is_absolute():
+                            # Try relative to workspace first
+                            file_path = self.workspace_path / code
+
+                        if file_path.exists():
+                            with open(file_path, 'r', encoding='utf-8') as f:
+                                code_content = f.read()
+                            language = code.split('.')[-1]
+                        else:
+                            console.print(f"[red]Could not find file: {code}[/red]")
+                            console.print(f"[yellow]Searched in: {file_path}[/yellow]")
+                            return False, True
+                    except Exception as e:
+                        console.print(f"[red]Could not read file: {code} - {e}[/red]")
                         return False, True
                 else:
                     code_content = code
@@ -943,7 +953,11 @@ Your intelligent coding assistant is ready. Awaiting command.
                     if self.conversation_manager:
                         console.print()
                         with console.status("[bold blue]🤖 AI is thinking...", spinner="dots"):
-                            await asyncio.sleep(0.2)  # Brief pause for effect
+                            try:
+                                await asyncio.sleep(0.2)  # Brief pause for effect
+                            except asyncio.CancelledError:
+                                # Handle cancellation gracefully
+                                raise KeyboardInterrupt()
                         await self.conversation_manager.chat(user_input, self.system_prompt)
                     else:
                         console.print(Panel.fit(
@@ -966,6 +980,11 @@ Your intelligent coding assistant is ready. Awaiting command.
                 )
                 console.print(goodbye_panel)
                 break
+            except asyncio.CancelledError:
+                # Handle asyncio cancellation gracefully
+                console.print()
+                console.print("[yellow]👋 Session interrupted. Goodbye![/yellow]")
+                break
             except Exception as e:
                 console.print(Panel.fit(
                     f"[bold red]❌ Error: {e}[/bold red]",
@@ -979,12 +998,14 @@ Your intelligent coding assistant is ready. Awaiting command.
             if not await self.setup_llm_client():
                 console.print("[red]❌ Failed to setup AI client. Exiting.[/red]")
                 return
-            
+
             # Start main loop
             await self.main_loop()
-            
+
         except KeyboardInterrupt:
             console.print("\n👋 [bold blue]Goodbye![/bold blue]")
+        except asyncio.CancelledError:
+            console.print("\n👋 [bold blue]Session cancelled. Goodbye![/bold blue]")
         except Exception as e:
             console.print(f"[red]❌ Fatal error: {e}[/red]")
 

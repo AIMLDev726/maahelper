@@ -396,3 +396,33 @@ class WorkflowCommands:
                     inputs[key] = value
         
         return inputs
+
+
+def main():
+    """Main entry point for workflow CLI"""
+    import asyncio
+    import sys
+    from rich.console import Console
+    
+    console = Console()
+    
+    try:
+        # Simple CLI interface for workflow commands
+        console.print("🔄 [bold blue]MaaHelper Workflow Manager[/bold blue]")
+        console.print("This is a placeholder implementation.")
+        console.print("Full CLI interface coming soon!")
+        
+        # For now, just show available templates
+        from .templates import WorkflowTemplates
+        templates = WorkflowTemplates()
+        
+        console.print("\n📋 Available Workflow Templates:")
+        for template in templates.list_templates()[:5]:  # Show first 5
+            console.print(f"  • {template.name}: {template.description}")
+            
+    except Exception as e:
+        console.print(f"❌ Error: {e}")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()

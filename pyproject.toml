@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "maahelper"
-version = "0.0.5"
+version = "1.0.0"
 description = "MaaHelper - Advanced AI-powered coding assistant with real-time analysis and Git integration"
 readme = "README.md"
 license = "MIT"
@@ -16,9 +16,8 @@ maintainers = [
 ]
 keywords = ["ai", "assistant", "code-analysis", "bug-fixing", "automation"]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Software Development :: Quality Assurance",
     "Topic :: Software Development :: Code Generators",
@@ -34,18 +33,45 @@ classifiers = [
 ]
 requires-python = ">=3.8"
 dependencies = [
+    # Core AI Dependencies
     "openai>=1.0.0",
+
+    # UI and Display
     "rich>=13.0.0",
+
+    # Security and Encryption
+    "cryptography>=41.0.0",
+    "keyring>=24.0.0",
+
+    # Logging
     "structlog>=23.0.0",
-    "cryptography>=3.4.0",
+
+    # CLI and Configuration
+    "click>=8.0.0",
+    "python-dotenv>=1.0.0",
+    "PyYAML>=6.0.0",
+
+    # Async support
     "aiohttp>=3.8.0",
+    "aiofiles>=23.0.0",
+
+    # Encoding and Token handling
+    "chardet>=5.0.0",
+    "tiktoken>=0.5.0",
+
+    # File watching and Git integration
     "watchdog>=3.0.0",
     "gitpython>=3.1.0",
-    "pathlib2; python_version<'3.4'",
+
+    # Web search capabilities
     "googlesearch-python>=1.2.0",
-    "typing-extensions>=4.0.0; python_version<'3.10'",
-    "aiofiles>=23.0.0",
-    "pygls>=1.0.0; extra=='lsp'"
+    "ddgs>=0.9.0",
+    "requests>=2.25.0",
+    "beautifulsoup4>=4.9.0",
+
+    # Python compatibility
+    "pathlib2; python_version<'3.4'",
+    "typing-extensions>=4.0.0; python_version<'3.10'"
 ]
 
 [project.scripts]
@@ -88,27 +114,73 @@ maahelper-workflow = "maahelper.workflows.commands:main"
 maahelper-ide = "maahelper.ide.commands:main"
 
 [project.optional-dependencies]
+# Development dependencies
 dev = [
-    "pytest>=6.0",
-    "pytest-cov",
-    "black",
-    "flake8",
-    "mypy",
-    "pre-commit"
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0"
 ]
+
+# Testing dependencies
 test = [
-    "pytest>=6.0",
-    "pytest-cov"
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0"
 ]
+
+# LSP server support
 lsp = [
-    "pygls>=1.0.0"
+    "pygls>=1.0.0",
+    "lsprotocol>=2023.0.1"
 ]
+
+# IDE integration features
 ide = [
     "pygls>=1.0.0",
+    "lsprotocol>=2023.0.1",
     "aiofiles>=23.0.0"
 ]
+
+# Workflow engine features
 workflows = [
     "aiofiles>=23.0.0"
+]
+
+# Full feature set with all providers
+full = [
+    "pygls>=1.0.0",
+    "lsprotocol>=2023.0.1",
+    "groq>=0.4.0",
+    "anthropic>=0.25.0",
+    "google-generativeai>=0.3.0",
+    "g4f>=0.2.0",
+    "langchain-openai>=0.1.0",
+    "langchain-anthropic>=0.1.0",
+    "langchain-google-genai>=0.1.0",
+    "langchain-ollama>=0.1.0"
+]
+
+# Search capabilities
+search = [
+    "ddgs>=0.9.0",
+    "googlesearch-python>=1.2.0"
+]
+
+# Additional AI providers
+providers = [
+    "groq>=0.4.0",
+    "anthropic>=0.25.0",
+    "google-generativeai>=0.3.0",
+    "g4f>=0.2.0"
+]
+
+# MCP (Model Context Protocol) support
+mcp = [
+    "mcp>=0.1.0"
 ]
 
 [project.urls]

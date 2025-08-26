@@ -6,6 +6,8 @@ Provides commands specifically designed for IDE integration
 import json
 import sys
 import asyncio
+import subprocess
+import threading
 from typing import Dict, List, Optional, Any
 from pathlib import Path
 
@@ -28,22 +30,42 @@ class IDECommands:
     async def start_lsp_server(self, port: Optional[int] = None, stdio: bool = False) -> str:
         """Start the Language Server Protocol server"""
         try:
-            from ..lsp.server import MaaHelperLSPServer
-            
-            server = MaaHelperLSPServer()
-            
+            from ..lsp.server import PYGLS_AVAILABLE
+
+            if not PYGLS_AVAILABLE:
+                error_msg = "❌ Failed to start LSP server: pygls not installed"
+                console.print(f"[red]{error_msg}[/red]")
+                console.print("[yellow]💡 Install pygls with: pip install pygls[/yellow]")
+                return error_msg
+
+            # Start LSP server in a separate process to avoid event loop conflicts
+            cmd = [sys.executable, "-m", "maahelper.lsp.server"]
+
             if stdio:
                 console.print("[green]Starting MaaHelper LSP Server with stdio...[/green]")
-                server.start_stdio()
+                cmd.append("--stdio")
             elif port:
                 console.print(f"[green]Starting MaaHelper LSP Server on port {port}...[/green]")
-                server.start_server(port)
+                cmd.extend(["--port", str(port)])
             else:
                 console.print("[green]Starting MaaHelper LSP Server with stdio (default)...[/green]")
-                server.start_stdio()
-            
-            return "✅ LSP Server started successfully"
-            
+                cmd.append("--stdio")
+
+            # Start the process in the background
+            def start_server_process():
+                try:
+                    subprocess.run(cmd, check=True)
+                except subprocess.CalledProcessError as e:
+                    console.print(f"[red]LSP Server process failed: {e}[/red]")
+                except Exception as e:
+                    console.print(f"[red]Failed to start LSP Server process: {e}[/red]")
+
+            # Run in a separate thread to avoid blocking
+            server_thread = threading.Thread(target=start_server_process, daemon=True)
+            server_thread.start()
+
+            return "✅ LSP Server started successfully in background"
+
         except Exception as e:
             error_msg = f"❌ Failed to start LSP server: {e}"
             console.print(f"[red]{error_msg}[/red]")
@@ -357,3 +379,32 @@ class IDECommands:
                 
         except Exception as e:
             return []
+
+
+def main():
+    """Main entry point for IDE CLI"""
+    import sys
+    from rich.console import Console
+    
+    console = Console()
+    
+    try:
+        console.print("🔧 [bold blue]MaaHelper IDE Integration[/bold blue]")
+        console.print("This is a placeholder implementation.")
+        console.print("Full IDE CLI interface coming soon!")
+        
+        console.print("\n💡 Available Features:")
+        console.print("  • Code analysis")
+        console.print("  • Error detection") 
+        console.print("  • Completion suggestions")
+        console.print("  • Hover information")
+        
+        console.print("\n🚀 Use the LSP server for full IDE integration:")
+        console.print("  maahelper-lsp --stdio")
+        
+    except Exception as e:
+        console.print(f"❌ Error: {e}")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()

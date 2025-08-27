@@ -203,23 +203,18 @@ maahelper-keys
 
 
 
+
+
 ## 🤖 Supported AI Providers
 
+| Provider   | Models                                | Notes                        |
+|------------|---------------------------------------|------------------------------|
+| **Groq**   | [Llama 3.1](https://llama.meta.com), [Llama 3.2](https://llama.meta.com), Mixtral, Gemma | ⚡ **Fastest & Free** |
+| **OpenAI** | [GPT-4](https://platform.openai.com/docs/models/gpt-4), [GPT-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5) | 🧠 Most capable |
+| **Anthropic** | [Claude 3](https://www.anthropic.com/claude), Claude 2 | 📝 Great for analysis |
+| **Google** | [Gemini Pro](https://deepmind.google/technologies/gemini/), Gemini Flash | 🔍 Multimodal support |
+| **Ollama** | [Local models](https://ollama.ai/)    | 🏠 Privacy-focused           |
 
-
-| Provider | Models | Notes |
-
-|----------|--------|-------|
-
-| **Groq** | Llama 3.1, Llama 3.2, Mixtral, Gemma | ⚡ **Fastest & Free** |
-
-| **OpenAI** | GPT-4, GPT-3.5-turbo | 🧠 Most capable |
-
-| **Anthropic** | Claude 3, Claude 2 | 📝 Great for analysis |
-
-| **Google** | Gemini Pro, Gemini Flash | 🔍 Multimodal support |
-
-| **Ollama** | Local models | 🏠 Privacy-focused |
 
 
 
@@ -620,4 +615,5 @@ Created by **Meet Solanki (AIML Student)**
 
 
 **⭐ Star this repository if you find it helpful!**
+
 
